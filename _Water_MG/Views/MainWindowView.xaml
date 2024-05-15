@@ -1,0 +1,583 @@
+﻿<Window x:Class="_Water_MG.Views.MainWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        xmlns:lvc ="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="650" Width="1100"
+        ResizeMode="NoResize"
+        WindowStyle= "None"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        AllowsTransparency="True"
+        Icon="../Image/shop.ico"
+        Padding="20,10,10,10">
+    <Border CornerRadius="10"
+        BorderThickness="3">
+
+        <Border.BorderBrush>
+            <!-- Tạo màu viền-->
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#4C3575" Offset="0"/>
+                <GradientStop Color="#5B4B8A" Offset="0.75"/>
+                <GradientStop Color="#0E8388" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <!-- back color form-->
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#ebedf3" Offset="0.9"/>
+                <GradientStop Color="#ebedf3" Offset="0.1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <!-- panel left-->
+            <Border Grid.Column="0"
+                Margin="20"
+                CornerRadius="10"
+                Background="#7163ba">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="110"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="70"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0"
+                            Orientation="Vertical"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                        <Image Source="../Image/logo.png"
+                           Margin="10,0,10,0"/>
+                    </StackPanel>
+                    <!-- button control -->
+                    <StackPanel Grid.Row="1">
+
+                        <RadioButton Style="{StaticResource menuButton }"
+                             Tag="{StaticResource color1}"
+                             IsChecked="True"
+                             Command="{Binding ShowHomeViewCommand}">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="Home" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Hệ thống" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <!-- button bán hàng-->
+                        <RadioButton x:Name="Banhang" 
+                             Style="{StaticResource menuButton }"
+                             Tag="{StaticResource color2}">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="List" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Danh mục" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <!-- button don hang-->
+                        <RadioButton x:Name="Donhang"
+                             Style="{StaticResource menuButton }"
+                             Tag="{StaticResource color3}">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="Print" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Nghiệp vụ quản lí" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <!-- button nhan vien-->
+                        <RadioButton Name="Nhanvien" 
+                             Style="{StaticResource menuButton }"
+                             Tag="{StaticResource color4}">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="Search" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Tra cứu" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton x:Name="Khohang"
+                             Style="{StaticResource menuButton}"
+                             Tag="{StaticResource color8}">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="Repeat" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Báo cáo" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <!-- button thong ke-->
+                        <RadioButton x:Name="Thongke"
+                             Style="{StaticResource menuButton }"
+                             Tag="{StaticResource color5}">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="ChartBar" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Thống kê" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+
+
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2">
+
+                        <!-- button dang xuat-->
+                        <RadioButton x:Name="Dangxuat"
+                             Style="{StaticResource menuButton }"
+                             Tag="{StaticResource color7}">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="RightFromBracket" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Đăng xuất" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+
+                    </StackPanel>
+
+                </Grid>
+
+            </Border>
+
+            <Grid Grid.Column="1">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <!-- panel top-->
+                <Border CornerRadius="10"
+                    Grid.Row="0"
+                    Margin="0,20,20,0"
+                    Background="#cfd5e5">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="20"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column ="0"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Orientation="Horizontal">
+                            <fa:IconImage Icon="Home" Width="30" Margin="20,0,0,0" Foreground="#7163ba"/>
+                            <TextBlock Text="Home" FontSize="18" FontWeight="Medium" FontFamily="Montterat" TextAlignment="Center" Margin="20,5,0,0" VerticalAlignment="Center" Foreground="#7163ba"/>
+                        </StackPanel>
+                        <!-- button minisize-->
+                        <Button
+                            x:Name="btn_Minisize"
+                            BorderThickness="0"
+                            Content="-"
+                            FontFamily="Century Gothic"
+                            FontSize="14"
+                            Foreground="White"
+                            Grid.Column="2"
+                            Cursor="Hand" Click="btn_Minisize_Click">
+
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="#7163ba"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#0E8388"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Width="30" Height="30"
+                                            CornerRadius="20"
+                                            Background="{TemplateBinding Background}">
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                                              VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <!-- butoon maxsize-->
+                        <Button
+                            x:Name="btn_Maxsize"
+                            BorderThickness="0"
+                            FontFamily="Century Gothic"
+                            FontSize="16"
+                            Foreground="White"
+                            Grid.Column="3"
+                            Cursor="Hand" Click="btn_Maxsize_Click">
+
+                            <StackPanel>
+                                <fa:IconImage Icon="Square"
+                                          Foreground="White"
+                                          Height="14"
+                                          Width="14"/>
+                            </StackPanel>
+
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="#7163ba"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#0E8388"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Width="30" Height="30"
+                                            CornerRadius="20"
+                                            Background="{TemplateBinding Background}">
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                                              VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                        <!-- button close-->
+                        <Button 
+                             x:Name="btn_Close"
+                             BorderThickness="0"
+                             Content="X"
+                             FontFamily="Century Gothic"
+                             FontSize="14"
+                             Foreground="White"
+                             Grid.Column="4"
+                             Cursor="Hand" Click="btn_Close_Click">
+
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="#7163ba"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#0E8388"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Width="30" Height="30"
+                                                CornerRadius="20"
+                                                Background="{TemplateBinding Background}">
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+
+                    </Grid>
+                </Border>
+                <!-- main section-->
+                <Border CornerRadius="10,10,10,10"
+                    Margin="0,20,20,20"
+                    Grid.Row="1"
+                    >
+
+                    <Border.Background>
+                        <ImageBrush ImageSource="../Image/background.png"
+                    Stretch="None"></ImageBrush>
+                    </Border.Background>
+
+                    <Border CornerRadius="10"
+                    BorderThickness="0"
+                    Opacity="0.95"
+                    >
+
+                        <Border.BorderBrush>
+                            <!-- Tạo màu viền-->
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#4C3575" Offset="0"/>
+                                <GradientStop Color="#5B4B8A" Offset="0.75"/>
+                                <GradientStop Color="#0E8388" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.BorderBrush>
+
+                        <Border.Background>
+                            <!-- Tạo màu nền-->
+                            <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
+                                <GradientStop Color="#ededef" Offset="0.9"/>
+                                <GradientStop Color="#fefefe" Offset="0.1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="300"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+
+                                <Grid Grid.Row="0">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="450"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- panel logo-->
+                                    <Border Grid.Column="0"
+                                        CornerRadius="10"
+                                        Margin="20"
+                                        Background="#7163ba"
+                                        BorderThickness="0">
+
+
+                                        <Border.BorderBrush>
+                                            <!-- Tạo màu viền-->
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                <GradientStop Color="#4C3575" Offset="0"/>
+                                                <GradientStop Color="#5B4B8A" Offset="0.75"/>
+                                                <GradientStop Color="#160040" Offset="0.5"/>
+                                            </LinearGradientBrush>
+                                        </Border.BorderBrush>
+
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Text="Revenue" Foreground="#F0eff6" FontSize="10" FontWeight="SemiBold" Margin="10,5,0,0"/>
+                                            <TextBlock Text="Month" Foreground="#F0eff6" FontSize="10"  FontWeight="SemiBold" Margin="0,5,10,0" HorizontalAlignment="Right"/>
+
+                                            <!-- Chart-->
+                                            <lvc:CartesianChart LegendLocation="None" Margin="10">
+                                                <lvc:CartesianChart.ToolTip>
+                                                    <lvc:DefaultTooltip Background="#5a5080" Foreground="#f4f3f6" BulletSize="0"/>
+                                                </lvc:CartesianChart.ToolTip>
+
+                                                <lvc:CartesianChart.AxisX>
+                                                    <lvc:Axis Foreground="#a79fd1" FontSize="14" ShowLabels="True" Labels="Jan,Feb,Mar,Apr,May,Jun,Jul,Agu,Sep,Oct,Nov,Dec">
+                                                        <lvc:Axis.Separator>
+                                                            <lvc:Separator StrokeThickness="0" Step="1"/>
+                                                        </lvc:Axis.Separator>
+                                                    </lvc:Axis>
+                                                </lvc:CartesianChart.AxisX>
+
+                                                <lvc:CartesianChart.AxisY>
+                                                    <lvc:Axis ShowLabels="True" MinValue="0" MaxValue="170">
+                                                        <lvc:Axis.Separator>
+                                                            <lvc:Separator StrokeThickness="0"/>
+                                                        </lvc:Axis.Separator>
+                                                    </lvc:Axis>
+                                                </lvc:CartesianChart.AxisY>
+
+                                                <lvc:CartesianChart.Series>
+                                                    <lvc:LineSeries Fill="#7164b2" StrokeThickness="4" PointGeometrySize="0" Values="10,5,70,170,90,30,150,60,80,20,15,15">
+                                                        <lvc:LineSeries.Stroke>
+                                                            <LinearGradientBrush>
+                                                                <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
+                                                                <GradientStop Color="#f782ab" Offset="0.23"/>
+                                                                <GradientStop Color="{StaticResource primaryBackColor2}" Offset="2.5"/>
+                                                            </LinearGradientBrush>
+                                                        </lvc:LineSeries.Stroke>
+                                                    </lvc:LineSeries>
+                                                </lvc:CartesianChart.Series>
+
+                                            </lvc:CartesianChart>
+                                        </Grid>
+
+                                    </Border>
+
+                                    <Border Grid.Column="1"
+                                        CornerRadius="10"
+                                        Margin="10,20,20,20"
+                                        Background="#7163ba"
+                                        BorderThickness="1">
+
+
+                                        <Border.BorderBrush>
+                                            <!-- Tạo màu viền-->
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                <GradientStop Color="#4C3575" Offset="0.4"/>
+                                                <GradientStop Color="#5B4B8A" Offset="0.75"/>
+                                                <GradientStop Color="#160040" Offset="0.5"/>
+                                            </LinearGradientBrush>
+                                        </Border.BorderBrush>
+
+                                        <!-- thông tin user đăng nhập-->
+                                        <Grid>
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="50"/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+
+                                            <StackPanel Orientation="Horizontal"
+                                                    Grid.Row="0">
+
+                                                <fa:IconImage Icon="User"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Center"
+                                                      Height="30"
+                                                      Margin="60,10,0,0"
+                                                      Foreground="White"/>
+
+                                                <TextBlock Text="Thông tin người dùng :"
+                                                       FontSize="14"
+                                                       Foreground="White"
+                                                       FontFamily="Century Gothic"
+                                                       Margin="20,10,0,0"
+                                                       VerticalAlignment="Center"/>
+
+                                            </StackPanel>
+
+                                            <!-- thông tin -->
+
+                                            <StackPanel Grid.Row="1"
+                                                    Orientation="Vertical">
+                                                <!-- mã nhân viên-->
+                                                <TextBlock Text="Mã nhân viên :"
+                                                       FontSize="14"
+                                                       Foreground="White"
+                                                       FontFamily="Century Gothic"
+                                                       Margin="20,0,0,0"
+                                                       VerticalAlignment="Center"
+                                                       Name="_MaNV"/>
+
+                                                <!-- Họ tên-->
+                                                <TextBlock Text="Họ tên :"
+                                                       FontSize="14"
+                                                       Foreground="White"
+                                                       FontFamily="Century Gothic"
+                                                       Margin="20,10,0,0"
+                                                       VerticalAlignment="Center"
+                                                       Name="_Hoten"/>
+
+                                                <!-- Ngày sinh-->
+                                                <TextBlock Text="Ngày sinh :"
+                                                       FontSize="14"
+                                                       Foreground="White"
+                                                       FontFamily="Century Gothic"
+                                                       Margin="20,10,0,0"
+                                                       VerticalAlignment="Center"
+                                                       Name="_Ngaysinh"/>
+                                                <!-- quê quán-->
+                                                <TextBlock Text="Địa chỉ :"
+                                                       FontSize="14"
+                                                       Foreground="White"
+                                                       FontFamily="Century Gothic"
+                                                       Margin="20,10,0,0"
+                                                       VerticalAlignment="Center"
+                                                       Name="_Diachi"/>
+                                                <!-- số điện thoại-->
+                                                <TextBlock Text="Số diện thoại :"
+                                                       FontSize="14"
+                                                       Foreground="White"
+                                                       FontFamily="Century Gothic"
+                                                       Margin="20,10,0,0"
+                                                       VerticalAlignment="Center"
+                                                       Name="_SDT"/>
+                                                <!-- chức vụ-->
+                                                <!-- số điện thoại-->
+                                                <TextBlock Text="Chức vụ:"
+                                                       FontSize="14"
+                                                       Foreground="White"
+                                                       FontFamily="Century Gothic"
+                                                       Margin="20,10,0,0"
+                                                       VerticalAlignment="Center"
+                                                       Name="_Chucvu"/>
+                                                <!-- chức vụ-->
+                                                <TextBlock Text="Trạng thái :"
+                                                       FontSize="14"
+                                                       Foreground="White"
+                                                       FontFamily="Century Gothic"
+                                                       Margin="20,10,0,0"
+                                                       VerticalAlignment="Center"
+                                                       Name="_Trangthai"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="500"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border BorderThickness="1"
+                                        Margin="20,0,10,20"
+                                        CornerRadius="10"
+                                        Background="#7163ba"
+                                        Grid.Column="0">
+
+                                        <Border.BorderBrush>
+                                            <!-- Tạo màu viền-->
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                <GradientStop Color="#4C3575" Offset="0"/>
+                                                <GradientStop Color="#5B4B8A" Offset="0.75"/>
+                                                <GradientStop Color="#160040" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Border.BorderBrush>
+
+                                        <Grid>
+                                            <StackPanel>
+                                                <Image Source="../Image/chart.png"
+                                                   Height="210"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                    </Border>
+
+
+                                    <Border BorderThickness="1"
+                                        Margin="20,0,20,20"
+                                        CornerRadius="10"
+                                        Background="#cfd5e5"
+                                        Grid.Column="1">
+
+                                        <Border.BorderBrush>
+                                            <!-- Tạo màu viền-->
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                <GradientStop Color="#4C3575" Offset="0"/>
+                                                <GradientStop Color="#5B4B8A" Offset="0.75"/>
+                                                <GradientStop Color="#160040" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Border.BorderBrush>
+
+                                        <Grid>
+                                            <lvc:PieChart LegendLocation="Bottom">
+                                                <lvc:PieChart.Series>
+                                                    <lvc:PieSeries Title="Nước CT1" Values="10" DataLabels="True">
+
+                                                    </lvc:PieSeries>
+                                                    <lvc:PieSeries Title="Nước CT2" Values="20" DataLabels="True">
+
+                                                    </lvc:PieSeries>
+                                                    <lvc:PieSeries Title="Nước CT3" Values="30" DataLabels="True">
+
+                                                    </lvc:PieSeries>
+                                                    <lvc:PieSeries Title="Nước CT4" Values="40" DataLabels="True">
+
+                                                    </lvc:PieSeries>
+                                                </lvc:PieChart.Series>
+                                            </lvc:PieChart>
+                                        </Grid>
+
+                                    </Border>
+
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </Border>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
+
