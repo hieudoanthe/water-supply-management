@@ -23,6 +23,7 @@ namespace _Water_MG.Views
         {
             InitializeComponent();
         }
+
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -38,7 +39,6 @@ namespace _Water_MG.Views
             Application.Current.Shutdown();
         }
 
-        private void btnLogin_Click(object sender, RoutedEventArgs e) { }
         private void BindablePasswordBox_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -55,5 +55,6 @@ namespace _Water_MG.Views
                 this.WindowState = WindowState.Normal;
             }
         }
+
     }
 }

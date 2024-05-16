@@ -5,25 +5,28 @@ using _Water_MG.Views;
 
 namespace _Water_MG
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
         protected void AppOpen(object sender, StartupEventArgs e)
         {
             var openLogin = new LoginView();
             openLogin.Show();
-            openLogin.IsVisibleChanged += (s, ev) =>
+            openLogin.IsVisibleChanged += OpenLogin_IsVisibleChanged;
+        }
+
+        private void OpenLogin_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var openLogin = sender as LoginView;
+            if (openLogin != null && !openLogin.IsVisible && openLogin.IsLoaded)
             {
-                if (openLogin.IsVisible == false && openLogin.IsLoaded)
+                openLogin.IsVisibleChanged -= OpenLogin_IsVisibleChanged;
+                var mainWindowView = new MainWindow();
+                mainWindowView.Show();
+                openLogin.Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    var MainWindowView = new MainWindowView();
-                    MainWindowView.Show();
                     openLogin.Close();
-                }
-            };
+                }));
+            }
         }
     }
-
 }

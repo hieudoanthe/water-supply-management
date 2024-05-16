@@ -7,6 +7,7 @@
         xmlns:viewModel="clr-namespace:_Water_MG.ViewModels" xmlns:customcontrols="clr-namespace:_Water_MG.CustomControls"
         mc:Ignorable="d"
         Title="LoginView" Height="550" Width="800"
+        MouseDown="Window_MouseDown"
         WindowStyle="None"
         Icon="../Image/shop.ico"
         ResizeMode="NoResize"
@@ -247,7 +248,7 @@
                             FontSize="12"
                             FontFamily="Montserrat"
                             Cursor="Hand"                           
-                            Margin="0,30,0,0" Click="btnLogin_Click">
+                            Margin="0,30,0,0">
 
                         <Button.Style>
                             <Style TargetType="Button">

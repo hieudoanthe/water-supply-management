@@ -3,9 +3,11 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
+	<RootNamespace>_Water_MG</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -67,4 +69,7 @@
   <ItemGroup>
     <Folder Include="Styles\" />
   </ItemGroup>
+    <ItemGroup>
+		<Folder Include="Themes\" />
+	</ItemGroup>
 </Project>
