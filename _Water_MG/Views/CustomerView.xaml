@@ -1,0 +1,535 @@
+﻿<Page x:Class="_Water_MG.Views.CustomerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace_Water_MG.Views"
+        xmlns:fa ="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        mc:Ignorable="d"
+        Height="650" Width="1100"
+        Background="Transparent"
+        FontFamily="Century Gothic">
+
+    <Border>
+
+        <Border.BorderBrush>
+            <!-- Tạo màu viền-->
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#4C3575" Offset="0"/>
+                <GradientStop Color="#5B4B8A" Offset="0.75"/>
+                <GradientStop Color="#0E8388" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <!-- back color form-->
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#fefefe" Offset="1"/>
+                <GradientStop Color="#ededef" Offset="0"/>
+            </LinearGradientBrush>
+
+        </Border.Background>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0"
+                    Background="{StaticResource color11}"
+                    Margin="10,10,10,0"
+                    CornerRadius="10">
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+
+              
+
+                    <StackPanel Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="Khách hàng"
+                               Foreground="Black"
+                               FontSize="14"
+                               FontFamily="Century Gothic"
+                               Grid.Column="1"
+                               TextAlignment="Left"
+                               VerticalAlignment="Center"                              
+                               >
+                        </TextBlock>
+                    </StackPanel>
+
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="1"
+                    Margin="10"
+                    Background="{StaticResource color11}"
+                    CornerRadius="10">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="650"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="70"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0"
+                                        Orientation="Horizontal">
+                            <fa:IconImage Icon="Search"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Left"
+                                              Width="20"
+                                              Foreground="Black"
+                                              Margin="20,0,0,0"/>
+                            <!-- text box search-->
+                            <TextBox x:Name="_Search"
+                                         FontSize="13"
+                                         FontWeight="Medium"
+                                         FontFamily="Monterrat"
+                                         Foreground="Black"
+                                         CaretBrush="Black"
+                                         BorderBrush="Black"
+                                         BorderThickness="0,0,0,1"
+                                         Height="20"
+                                         VerticalContentAlignment="Center"
+                                         Margin="5,0,0,0"
+                                         Width="200">
+
+
+                                <TextBox.Background>
+                                    <ImageBrush 
+                                        Stretch="None"
+                                        AlignmentX="Left"
+                                        />
+                                </TextBox.Background>
+                            </TextBox>
+                            <TextBlock Text="Danh mục:"
+                                           VerticalAlignment="Center"
+                                           Foreground="Black"
+                                           Margin="30,0,0,0"
+                                           FontSize="14"/>
+                            <ComboBox Name="cbbox_Search"
+                                          VerticalAlignment="Center"
+                                          Margin="30,0,0,0"
+                                          Width="110"/>
+                            <!-- button search-->
+                            <Button 
+                                     x:Name="btn_Search"
+                                     BorderThickness="0"
+                                     Content="Tìm kiếm"
+                                     FontFamily="Century Gothic"
+                                     FontSize="14"
+                                     Foreground="White"                                  
+                                     Cursor="Hand"
+                                     Margin="20,0,0,0" Width="111">
+
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Background" Value="#7163ba"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#0E8388"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Width="100"
+                                                Height="30"
+                                                CornerRadius="10"
+                                                Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </StackPanel>
+
+                        <!-- data grid-->
+                        <Border Grid.Row="1"
+                                    CornerRadius="10"
+                                    Padding="10">
+
+                            <DataGrid Name="dgView" 
+                                            ColumnWidth="*"
+                                            Background="#7163ba"
+                                            BorderThickness="0"
+                                            >
+                                <DataGrid.ColumnHeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="Foreground" Value="DarkGray"/>
+                                        <Setter Property="Padding" Value="10,0,0,10"/>
+                                        <Setter Property="FontFamily" Value="Century Gothic"/>
+                                        <Setter Property="FontSize" Value="15"/>
+                                    </Style>
+                                </DataGrid.ColumnHeaderStyle>
+                            </DataGrid>
+                        </Border>
+                    </Grid>
+
+                    <Grid Grid.Column="1">
+                        <GroupBox Header=""
+                                  Foreground="Black"
+                                  FontFamily="Century Gothic"
+                                  FontSize="16"
+                                  Margin="10,0,10,10"
+                                  Background="White">
+                            <GroupBox.Style>
+                                <Style TargetType="GroupBox">
+                                    <Setter Property="BorderThickness" Value="0.3"/>
+                                    <Setter Property="BorderBrush" Value="{StaticResource color2}"/>
+                                </Style>
+                            </GroupBox.Style>
+
+                            <Grid>
+                                <TextBlock Text="Tài khoản :"
+                                   Foreground="Black"
+                                   FontSize="14"
+                                   FontFamily="Century Gothic"
+                                   Margin="48,21,261,502"
+                                   />
+                                <!-- Mã nhân viên-->
+                                <TextBox x:Name="_User"
+                                     FontSize="13"
+                                     FontWeight="Medium"
+                                     FontFamily="Monterrat"
+                                     Foreground="Black"
+                                     CaretBrush="Black"
+                                     BorderBrush="Black"
+                                     BorderThickness="0,0,0,1"
+                                     Height="28"
+                                     VerticalAlignment="Top"
+                                     VerticalContentAlignment="Center"
+                                     Margin="151,9,49,0"
+                                     Padding="0,8,0,0">
+
+                                    <TextBox.Background>
+                                        <ImageBrush 
+                                        Stretch="None"
+                                        AlignmentX="Left"
+                                        />
+                                    </TextBox.Background>
+                                </TextBox>
+                                <TextBlock Text="Mật khẩu :"
+                                    Foreground="Black"
+                                    FontSize="14"
+                                    FontFamily="Century Gothic"
+                                    Margin="48,60,261,463"
+                                   />
+                                <TextBox x:Name="_Pass"
+                                    FontSize="13"
+                                    FontWeight="Medium"
+                                    FontFamily="Monterrat"
+                                    Foreground="Black"
+                                    CaretBrush="Black"
+                                    BorderBrush="Black"
+                                    BorderThickness="0,0,0,1"
+                                    Height="28"
+                                    VerticalAlignment="Top"
+                                    VerticalContentAlignment="Center"
+                                    Margin="151,48,49,0"
+                                    Padding="0,8,0,0">
+
+                                    <TextBox.Background>
+                                        <ImageBrush 
+                                            Stretch="None"
+                                            AlignmentX="Left"
+                                        />
+                                    </TextBox.Background>
+                                </TextBox>
+                                <TextBlock Text="Mã KH :"
+                                    Foreground="Black"
+                                    FontSize="14"
+                                    FontFamily="Century Gothic"
+                                    Margin="48,101,261,422"
+                                   />
+                                <TextBox x:Name="_MaNV"
+                                    FontSize="13"
+                                    FontWeight="Medium"
+                                    FontFamily="Monterrat"
+                                    Foreground="Black"
+                                    CaretBrush="Black"
+                                    BorderBrush="Black"
+                                    BorderThickness="0,0,0,1"
+                                    Height="28"
+                                    VerticalAlignment="Top"
+                                    VerticalContentAlignment="Center"
+                                    Margin="151,89,146,0"
+                                    Padding="0,8,0,0">
+
+                                    <TextBox.Background>
+                                        <ImageBrush 
+                                            Stretch="None"
+                                            AlignmentX="Left"
+                                        />
+                                    </TextBox.Background>
+                                </TextBox>
+                                <ComboBox Name="cbbox_MaNV"
+                                          VerticalAlignment="Top"
+                                          Margin="261,91,49,0" RenderTransformOrigin="0.201,0.671"/>
+                                <TextBlock Text="Họ tên : "
+                                    Foreground="Black"
+                                    FontSize="14"
+                                    FontFamily="Century Gothic"
+                                    Margin="48,139,261,384"
+                                   />
+                                <TextBox x:Name="_Hoten"
+                                    FontSize="13"
+                                    FontWeight="Medium"
+                                    FontFamily="Monterrat"
+                                    Foreground="Black"
+                                    CaretBrush="Black"
+                                    BorderBrush="Black"
+                                    BorderThickness="0,0,0,1"
+                                    Height="28"
+                                    VerticalAlignment="Top"
+                                    VerticalContentAlignment="Center"
+                                    Margin="151,126,49,0"
+                                    Padding="0,8,0,0"
+                                    IsEnabled="False">
+
+                                    <TextBox.Background>
+                                        <ImageBrush 
+                                            Stretch="None"
+                                            AlignmentX="Left"
+                                        />
+                                    </TextBox.Background>
+                                </TextBox>
+                                <TextBlock Text="Loại tài khoản :"
+                                    Foreground="Black"
+                                    FontSize="14"
+                                    FontFamily="Century Gothic"
+                                    Margin="48,177,246,346"
+                                   />
+                                <ComboBox x:Name="cbbox_LoaiTK"
+                                    VerticalAlignment="Top"
+                                    Margin="153,177,49,0" RenderTransformOrigin="0.201,0.671" Height="26"/>
+
+                                <!-- button thêm mới-->
+                                <Button
+                                    x:Name="btn_themoi"
+                                    BorderThickness="0"
+                                    Content="Thêm mới"
+                                    FontFamily="Century Gothic"
+                                    FontSize="13"
+                                    Foreground="White"
+                                    Cursor="Hand"
+                                    Margin="34,358,197,146">
+
+                                    <Button.Style>
+                                        <Style TargetType="Button" >
+                                            <Setter Property="Background" Value="#7163ba"/>
+                                            <Setter Property="FontFamily" Value="Century Gothic"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#0E8388"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Width="150" Height="30"
+                                        CornerRadius="10"
+                                        Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                                <Button
+                                    x:Name="btn_Xoa"
+                                    BorderThickness="0"
+                                    Content="Xóa"
+                                    FontFamily="Century Gothic"
+                                    FontSize="13"
+                                    Foreground="White"
+                                    Cursor="Hand"
+                                    Margin="210,358,21,145" RenderTransformOrigin="0.519,1.303">
+
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}" >
+                                            <Setter Property="Background" Value="#7163ba"/>
+                                            <Setter Property="FontFamily" Value="Century Gothic"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#0E8388"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Width="150" Height="30"
+                                                CornerRadius="10"
+                                                Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                                <Button
+                                    x:Name="btn_Sua"
+                                    BorderThickness="0"
+                                    Content="Sửa"
+                                    FontFamily="Century Gothic"
+                                    FontSize="13"
+                                    Foreground="White"
+                                    Cursor="Hand"
+                                    Margin="36,450,194,34" RenderTransformOrigin="0.5,0.5">
+
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}" >
+                                            <Setter Property="Background" Value="#7163ba"/>
+                                            <Setter Property="FontFamily" Value="Century Gothic"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#0E8388"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Width="150" Height="30"
+                                                CornerRadius="10"
+                                                Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                                <Button
+                                    x:Name="btn_Capnhat"
+                                    BorderThickness="0"
+                                    Content="Cập nhật"
+                                    FontFamily="Century Gothic"
+                                    FontSize="13"
+                                    Foreground="White"
+                                    Cursor="Hand"
+                                    Margin="210,449,21,34" >
+
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}" >
+                                            <Setter Property="Background" Value="#7163ba"/>
+                                            <Setter Property="FontFamily" Value="Century Gothic"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#0E8388"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Width="150" Height="30"
+                                                CornerRadius="10"
+                                                Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                                <Button
+                                    x:Name="btn_Sua1"
+                                    BorderThickness="0"
+                                    Content="Sửa"
+                                    FontFamily="Century Gothic"
+                                    FontSize="13"
+                                    Foreground="DarkGray"
+                                    Cursor="Hand"
+                                    Margin="34,299,197,205"
+                                    Visibility="Hidden">
+
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}" >
+                                            <Setter Property="Background" Value="#371B58"/>
+                                            <Setter Property="FontFamily" Value="Century Gothic"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#0E8388"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Width="150" Height="30"
+                                                CornerRadius="10"
+                                                Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                                <Button
+                                    x:Name="btn_Thoat"
+                                    BorderThickness="0"
+                                    Content="Thoát"
+                                    FontFamily="Century Gothic"
+                                    FontSize="13"
+                                    Foreground="DarkGray"
+                                    Cursor="Hand"
+                                    Margin="210,299,21,205"
+                                    Visibility="Hidden">
+
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}" >
+                                            <Setter Property="Background" Value="#371B58"/>
+                                            <Setter Property="FontFamily" Value="Century Gothic"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#0E8388"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Width="150" Height="30"
+                                                CornerRadius="10"
+                                                Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+
+    </Border>
+
+</Page>

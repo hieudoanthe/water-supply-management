@@ -22,6 +22,7 @@ namespace _Water_MG
         public MainWindow()
         {
             InitializeComponent();
+            navframe.Navigate(new Uri("/Views/StatisticalView.xaml", UriKind.Relative));
         }
 
         private void sidebar_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -36,6 +37,39 @@ namespace _Water_MG
         private void navframe_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
 
+        }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void NavButton_CustomClick(object sender, MouseButtonEventArgs e)
+        {
+            Close();
+        }
+
+        private void NavButton_ToggleWindowState(object sender, MouseButtonEventArgs e)
+        {
+            /*if (this.WindowState == WindowState.Normal)
+            {
+                this.WindowState = WindowState.Maximized;
+            }
+            else if (this.WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal;
+            }*/
+            WindowState = WindowState.Minimized;
+        }
+
+        private void NavButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ToolTipService.SetIsEnabled((DependencyObject)sender, true);
+        }
+
+        private void NavButton_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ToolTipService.SetIsEnabled((DependencyObject)sender, false);
         }
     }
 }
