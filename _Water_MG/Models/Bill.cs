@@ -15,13 +15,10 @@ namespace _Water_MG.Models
 
         public int CustomerId { get; set; }
 
-        [Required]
         public DateTime BillingDate { get; set; }
 
-        [Required]
         public decimal AmountDue { get; set; }
 
-        [Required]
         public bool IsPaid { get; set; }
 
         [ForeignKey("CustomerId")]

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _Water_MG.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,15 @@ namespace _Water_MG.Views
         public CustomerView()
         {
             InitializeComponent();
+        }
+        private void BindablePasswordBox_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void dgView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

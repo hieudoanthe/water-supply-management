@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _Water_MG.Models;
 
@@ -11,9 +12,11 @@ using _Water_MG.Models;
 namespace _Water_MG.Migrations
 {
     [DbContext(typeof(WaterContext))]
-    partial class WaterContextModelSnapshot : ModelSnapshot
+    [Migration("20240518131411_w3")]
+    partial class w3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,7 +92,7 @@ namespace _Water_MG.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
 
-                    b.Property<int>("AccountId")
+                    b.Property<int?>("AccountId")
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
@@ -187,9 +190,7 @@ namespace _Water_MG.Migrations
                 {
                     b.HasOne("_Water_MG.Models.Account", "Account")
                         .WithMany("Customers")
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AccountId");
 
                     b.Navigation("Account");
                 });

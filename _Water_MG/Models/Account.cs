@@ -20,11 +20,18 @@ namespace _Water_MG.Models
         [MaxLength(255)]
         public string Password { get; set; }
 
-        [Required]
         [MaxLength(50)]
         public string Role { get; set; }
 
+        public string TypeAccount { get; set; }
+
         // Navigation property
         public virtual ICollection<Customer> Customers { get; set; }
+
+        public Account()
+        {
+            this.Role = "User";
+            this.TypeAccount = "CN";
+        }
     }
 }

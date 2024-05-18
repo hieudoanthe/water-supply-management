@@ -18,7 +18,6 @@ namespace _Water_MG.Models
         [MaxLength(100)]
         public string Name { get; set; }
 
-        [Required]
         [MaxLength(255)]
         public string Address { get; set; }
 
@@ -28,7 +27,7 @@ namespace _Water_MG.Models
         [MaxLength(100)]
         public string Email { get; set; }
 
-        public int? AccountId { get; set; }
+        public int AccountId { get; set; }
 
         [ForeignKey("AccountId")]
         public virtual Account Account { get; set; }
@@ -36,5 +35,11 @@ namespace _Water_MG.Models
         // Navigation properties
         public virtual ICollection<Meter> Meters { get; set; }
         public virtual ICollection<Bill> Bills { get; set; }
+
+        public Customer() { 
+            this.Address = "Null";
+            this.PhoneNumber = "Null";
+            this.Email = "Null";
+        }
     }
 }
