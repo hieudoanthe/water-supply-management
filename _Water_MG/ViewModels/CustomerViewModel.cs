@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
+using System.Linq;
 using System.Security;
 using System.Windows.Input;
 using _Water_MG.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace _Water_MG.ViewModels
 {
@@ -12,12 +13,17 @@ namespace _Water_MG.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // Fields
         private string _username;
         private SecureString _password;
         private string _fullName;
+        private string _address;
+        private string _phonenumber;
+        private string _email;
+        private int _idkh;
+        private string _searchKeyword;
         private string _errorMessage;
         private bool _isViewVisible = true;
+        private Customer _selectedCustomer;
         private readonly WaterContext _dbContext;
 
         // Properties
@@ -48,6 +54,55 @@ namespace _Water_MG.ViewModels
             {
                 _fullName = value;
                 OnPropertyChanged(nameof(FullName));
+            }
+        }
+
+        public string Address
+        {
+            get { return _address; }
+            set
+            {
+                _address = value;
+                OnPropertyChanged(nameof(Address));
+            }
+        }
+        public string Email
+        {
+            get => _email;
+            set 
+            { 
+              _email = value;
+               OnPropertyChanged(nameof(Email));
+            }
+        }
+
+        public string PhoneNumber
+        {
+            get { return _phonenumber; }
+            set {
+                _phonenumber = value; 
+                OnPropertyChanged(nameof(PhoneNumber));
+            }
+        }
+
+        public int idKH
+        {
+            get { return _idkh; }
+            set
+            {
+                _idkh = value;
+                OnPropertyChanged($"IdKH");
+            }
+            
+        }
+        public string SearchKeyword
+        {
+            get { return _searchKeyword; }
+            set
+            {
+                _searchKeyword = value;
+                OnPropertyChanged(nameof(SearchKeyword)); // Kích hoạt sự kiện PropertyChanged
+                FilterCustomers(); // Gọi phương thức lọc dữ liệu khi từ khóa tìm kiếm thay đổi
             }
         }
 
@@ -90,18 +145,44 @@ namespace _Water_MG.ViewModels
 
         public ObservableCollection<Customer> Customers { get; set; }
 
-        // Commands
-        public ICommand RegisterCommand { get; }
+        public Customer SelectedCustomer
+        {
+            get { return _selectedCustomer; }
+            set
+            {
+                _selectedCustomer = value;
+                OnPropertyChanged(nameof(SelectedCustomer));
+                if (_selectedCustomer != null)
+                {
+                    FullName = _selectedCustomer.Name;
+                    PhoneNumber = _selectedCustomer.PhoneNumber;
+                    Email = _selectedCustomer.Email;
+                    Address = _selectedCustomer.Address;
+                    idKH = _selectedCustomer.CustomerId;
+                    // Populate other fields as needed
+                }
+            }
+        }
 
+        public ICommand RegisterCommand { get; }
+        public ICommand DeleteCommand { get; }
+        public ICommand UpdateCommand { get; }
+
+        public ICommand SearchCommand { get; }
         // Constructor
         public CustomerViewModel()
         {
             _dbContext = new WaterContext();
             RegisterCommand = new ViewModelCommand(ExecuteRegisterCommand, CanExecuteRegisterCommand);
+            DeleteCommand = new ViewModelCommand(ExecuteDeleteCommand, CanExecuteDeleteCommand);
+            UpdateCommand = new ViewModelCommand(ExecuteUpdateCommand, CanExecuteUpdateCommand);
+            SearchCommand = new ViewModelCommand(ExecuteSearchCommand, CanExecuteSearchCommand);
+
             Customers = new ObservableCollection<Customer>();
             LoadData();
         }
 
+/*XỬ LÍ ĐĂNG KÍ TÀI KHOẢN*/
         private bool CanExecuteRegisterCommand(object obj)
         {
             return !string.IsNullOrWhiteSpace(Username) && Username.Length >= 3 &&
@@ -117,7 +198,7 @@ namespace _Water_MG.ViewModels
                 var existingAccount = _dbContext.Accounts.Any(u => u.Username == Username);
                 if (existingAccount)
                 {
-                    ErrorMessage = "Username already exists.";
+                    ErrorMessage = "Trùng tên đăng nhập!";
                     return;
                 }
 
@@ -125,7 +206,7 @@ namespace _Water_MG.ViewModels
                 {
                     Username = this.Username,
                     Password = ConvertToUnsecureString(this.Password),
-                    TypeAccount = SelectedAccountType // Lưu loại tài khoản vào cơ sở dữ liệu
+                    TypeAccount = SelectedAccountType
                 };
 
                 _dbContext.Accounts.Add(account);
@@ -136,39 +217,39 @@ namespace _Water_MG.ViewModels
                     var customer = new Customer
                     {
                         Name = this.FullName,
+                        PhoneNumber = this.PhoneNumber,
+                        Address = this.Address,
+                        Email = this.Email,
                         AccountId = account.AccountId
                     };
 
                     _dbContext.Customers.Add(customer);
                     _dbContext.SaveChanges();
 
-                    ErrorMessage = "Account added successfully!";
-                    LoadData(); // Reload data after successful addition
+                    ErrorMessage = "Tài khoản đã được tạo!";
+                    LoadData();
 
-                    // Reset the fields after successful addition
                     Username = "";
                     Password = new SecureString();
                     FullName = "";
+                    PhoneNumber = "";
+                    Email = "";
+                    Address = "";
+                    idKH = 0;
                     SelectedAccountType = "";
                 }
                 else
                 {
-                    // Xử lý trường hợp lỗi khi không thể lưu Account
                     ErrorMessage = "Failed to save Account.";
                 }
             }
             catch (Exception ex)
             {
-                // In ra thông tin lỗi của ngoại lệ chính
                 Console.WriteLine($"An error occurred: {ex.Message}");
-
-                // Kiểm tra xem có ngoại lệ bên trong không và in ra thông tin lỗi của ngoại lệ bên trong
                 if (ex.InnerException != null)
                 {
                     Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
                 }
-
-                // Xử lý lỗi hoặc thông báo lỗi cho người dùng
                 ErrorMessage = $"An error occurred: {ex.Message}";
             }
         }
@@ -189,33 +270,157 @@ namespace _Water_MG.ViewModels
                 System.Runtime.InteropServices.Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
             }
         }
+        /*XỬ LÍ XÓA TÀI KHOẢN*/
 
+        private bool CanExecuteDeleteCommand(object obj)
+        {
+            // Kiểm tra xem có dòng nào được chọn trong DataGrid hay không
+            return SelectedCustomer != null;
+        }
+
+        private void ExecuteDeleteCommand(object obj)
+        {
+            try
+            {
+                if (SelectedCustomer != null)
+                {
+                    // Xóa tài khoản tương ứng từ bảng Account
+                    DeleteAccount(SelectedCustomer.AccountId);
+
+                    // Xóa dữ liệu từ cơ sở dữ liệu (khách hàng)
+                    _dbContext.Customers.Remove(SelectedCustomer);
+                    _dbContext.SaveChanges();
+
+                    // Xóa dữ liệu từ ObservableCollection (khách hàng)
+                    Customers.Remove(SelectedCustomer);
+                    ErrorMessage = "Đã xóa tài khoản!";
+                    LoadData();
+                    // Đặt SelectedCustomer về null sau khi xóa
+                    SelectedCustomer = null;
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                // Xử lí khi có lỗi xảy ra
+                Console.WriteLine($"An error occurred while deleting data: {ex.Message}");
+            }
+        }
+        private void DeleteAccount(int accountId)
+        {
+            var accountToDelete = _dbContext.Accounts.FirstOrDefault(a => a.AccountId == accountId);
+            if (accountToDelete != null)
+            {
+                _dbContext.Accounts.Remove(accountToDelete);
+                _dbContext.SaveChanges();
+                ErrorMessage = "Đã xóa tài khoản!";
+                LoadData();
+                Username = "";
+                Password = new SecureString();
+                FullName = "";
+                PhoneNumber = "";
+                Email = "";
+                Address = "";
+                idKH = 0;
+                SelectedAccountType = "";
+            }
+        }
+
+        /*CẬP NHẬT DỮ LIỆU*/
+        private bool CanExecuteUpdateCommand(object obj)
+        {
+            // Kiểm tra xem có dòng nào được chọn trong DataGrid hay không
+            return SelectedCustomer != null;
+        }
+        private void ExecuteUpdateCommand(object obj)
+        {
+            try
+            {
+                if (SelectedCustomer != null)
+                {
+                    // Lấy thông tin mới từ giao diện và cập nhật vào đối tượng SelectedCustomer
+                    SelectedCustomer.Name = FullName; // Ví dụ: UpdatedName là thuộc tính Binding của TextBox
+                    SelectedCustomer.Email = Email;
+                    SelectedCustomer.Address = Address;
+                    SelectedCustomer.PhoneNumber = PhoneNumber;
+                    // Cập nhật dữ liệu vào cơ sở dữ liệu
+                    _dbContext.SaveChanges();
+
+                    // Hiển thị thông báo hoặc thực hiện hành động sau khi cập nhật thành công
+                    ErrorMessage = "Cập nhật dữ liệu thành công!";
+                    LoadData();
+                    Username = "";
+                    Password = new SecureString();
+                    FullName = "";
+                    PhoneNumber = "";
+                    Email = "";
+                    Address = "";
+                    idKH = 0;
+                    SelectedAccountType = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while updating data: {ex.Message}");
+                ErrorMessage = $"An error occurred: {ex.Message}";
+            }
+        }
+
+        /* TÌM KIẾM Bằng Box*/
+        private void FilterCustomers()
+        {
+            string keyword = SearchKeyword.ToLower();
+
+            var filteredCustomers = _dbContext.Customers.Where(c => c.Name.ToLower().Contains(keyword) ||
+                                                                     c.Address.ToLower().Contains(keyword) ||
+                                                                     c.PhoneNumber.ToLower().Contains(keyword) ||
+                                                                     c.Email.ToLower().Contains(keyword))
+                                                         .ToList();
+
+            Customers.Clear(); 
+            foreach (var customer in filteredCustomers)
+            {
+                Customers.Add(customer); 
+            }
+        }
+
+        /*        LỌC - LỰA CHỌN TÌM KIẾM*/
+        private bool CanExecuteSearchCommand(object obj)
+        {
+            return !string.IsNullOrWhiteSpace(SelectedAccountType);
+        }
+
+        private void ExecuteSearchCommand(object obj)
+        {
+            FilterCustomersByAccountType();
+        }
+
+        private void FilterCustomersByAccountType()
+        {
+            // Lọc dữ liệu theo loại tài khoản được chọn từ ComboBox
+            var filteredCustomers = _dbContext.Customers
+                .Where(c => c.Account.TypeAccount == SelectedAccountType)
+                .ToList();
+
+            Customers.Clear();
+            foreach (var customer in filteredCustomers)
+            {
+                Customers.Add(customer);
+            }
+        }
+
+        /* TẢI LẠI DỮ LIỆU*/
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        // Method to load data
         private void LoadData()
         {
-            try
+            Customers.Clear();
+            foreach (var customer in _dbContext.Customers)
             {
-                Customers.Clear();
-                var customersFromDb = _dbContext.Customers
-                                          .Include(c => c.Account)  // Include Account table
-                                          .ToList();
-
-                foreach (var customer in customersFromDb)
-                {
-                    Customers.Add(customer);
-                }
-
-                // Thông báo rằng dữ liệu đã thay đổi
-                OnPropertyChanged(nameof(Customers));
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred while loading data: {ex.Message}");
+                Customers.Add(customer);
             }
         }
     }

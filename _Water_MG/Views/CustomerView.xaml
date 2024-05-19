@@ -70,10 +70,10 @@
                     </StackPanel>
                     <TextBlock Text="{Binding ErrorMessage}"
                                  Foreground="#D7596D"
-                                 FontSize="12"
+                                 FontSize="18"
                                  FontWeight="Medium"
                                  FontFamily="Montserrat"                             
-                                 Margin="103,6,0,6"
+                                 Margin="251,6,0,0"
  TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                 </Grid>
             </Border>
@@ -105,6 +105,7 @@
                                               Margin="20,0,0,0"/>
                             <!-- text box search-->
                             <TextBox x:Name="_Search"
+                                         Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}"
                                          FontSize="13"
                                          FontWeight="Medium"
                                          FontFamily="Monterrat"
@@ -131,12 +132,15 @@
                                            Margin="30,0,0,0"
                                            FontSize="14"/>
                             <ComboBox Name="cbbox_Search"
+                                          ItemsSource="{Binding AccountTypeItemsSource}"
+                                          SelectedItem="{Binding SelectedAccountType}"
                                           VerticalAlignment="Center"
                                           Margin="30,0,0,0"
                                           Width="110"/>
                             <!-- button search-->
                             <Button 
                                      x:Name="btn_Search"
+                                     Command="{Binding SearchCommand}"
                                      BorderThickness="0"
                                      Content="Tìm kiếm"
                                      FontFamily="Century Gothic"
@@ -178,26 +182,38 @@
                             <DataGrid Name="dgView"
                                             ColumnWidth="*"
                                             Background="#7163ba"
+                                            GridLinesVisibility="None"
                                             BorderThickness="0"
                                             ItemsSource="{Binding Customers}" 
-                                            AutoGenerateColumns="False">
+                                            AutoGenerateColumns="False"
+                                            SelectedItem="{Binding SelectedCustomer}" SelectionChanged="dgView_SelectionChanged_1">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Customer ID" Binding="{Binding CustomerId}" />
-                                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                                    <DataGridTextColumn Header="Address" Binding="{Binding Address}" />
-                                    <DataGridTextColumn Header="Phone Number" Binding="{Binding PhoneNumber}" />
+                                    <DataGridTextColumn Header="Mã KH" Binding="{Binding CustomerId}" />
+                                    <DataGridTextColumn Header="Họ và Tên" Binding="{Binding Name}" />
+                                    <DataGridTextColumn Header="Địa chỉ" Binding="{Binding Address}" />
+                                    <DataGridTextColumn Header="Số ĐT" Binding="{Binding PhoneNumber}" />
                                     <DataGridTextColumn Header="Email" Binding="{Binding Email}" />
                                 </DataGrid.Columns>
+                                <DataGrid.Resources>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                        <Setter Property="Background" Value="AliceBlue"/>
+                                        <Setter Property="Foreground" Value="Black"/>
+                                    </Style>
+                                    <Style TargetType="DataGridRow">
+                                        <Setter Property="Background" Value="Aqua"/>
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                    </Style>
+                                </DataGrid.Resources>
 
                                 <DataGrid.ColumnHeaderStyle>
                                     <Style TargetType="DataGridColumnHeader">
                                         <Setter Property="Background" Value="Transparent"/>
-                                        <Setter Property="Foreground" Value="DarkGray"/>
+                                        <Setter Property="Foreground" Value="White"/>
                                         <Setter Property="Padding" Value="10,0,0,10"/>
                                         <Setter Property="FontFamily" Value="Century Gothic"/>
                                         <Setter Property="FontSize" Value="15"/>
                                     </Style>
-
                                 </DataGrid.ColumnHeaderStyle>
                             </DataGrid>
                         </Border>
@@ -240,7 +256,7 @@
                                      Margin="151,9,49,0"
                                      Padding="0,8,0,0">
 
-                                     
+
                                     <TextBox.Background>
                                         <ImageBrush 
                                         Stretch="None"
@@ -248,14 +264,14 @@
                                         />
                                     </TextBox.Background>
                                 </TextBox>
-                                
+
                                 <TextBlock Text="Mật khẩu :"
                                     Foreground="Black"
                                     FontSize="14"
                                     FontFamily="Century Gothic"
                                     Margin="48,60,261,463"
                                    />
-                                <customcontrols:BindablePasswordBox Foreground="Black" Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                            
+                                <customcontrols:BindablePasswordBox Background="AliceBlue" Foreground="Black" Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                            
                                                         Margin="151,56,49,469" Loaded="BindablePasswordBox_Loaded"/>
                                 <TextBlock Text="Mã KH :"
                                     Foreground="Black"
@@ -284,9 +300,13 @@
                                         />
                                     </TextBox.Background>
                                 </TextBox>
-                                <ComboBox Name="cbbox_MaNV"
-                                          VerticalAlignment="Top"
-                                          Margin="261,91,49,0" RenderTransformOrigin="0.201,0.671"/>
+                                <TextBox Name="tbx_MaKH"
+                                         Text="{Binding idKH, UpdateSourceTrigger=PropertyChanged}"
+                                         VerticalAlignment="Top"
+                                         Margin="261,95,49,0"
+                                         RenderTransformOrigin="0.201,0.671"
+                                         IsReadOnly="True"
+                                         Background="LightGray" Width="88"/>
                                 <TextBlock Text="Họ tên : "
                                     Foreground="Black"
                                     FontSize="14"
@@ -316,18 +336,105 @@
                                     </TextBox.Background>
                                 </TextBox>
 
+                                <TextBlock  Text="Địa chỉ : "
+                                            Foreground="Black"
+                                            FontSize="14"
+                                            FontFamily="Century Gothic"
+                                            Margin="48,174,261,350"
+                                           />
+                                <TextBox x:Name="_Address"
+                                            Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}"
+                                            FontSize="13"
+                                            FontWeight="Medium"
+                                            FontFamily="Monterrat"
+                                            Foreground="Black"
+                                            CaretBrush="Black"
+                                            BorderBrush="Black"
+                                            BorderThickness="0,0,0,1"
+                                            Height="30"
+                                            VerticalAlignment="Top"
+                                            VerticalContentAlignment="Center"
+                                            Margin="151,159,49,0"
+                                            Padding="0,8,0,0">
+
+                                    <TextBox.Background>
+                                        <ImageBrush 
+                                            Stretch="None"
+                                            AlignmentX="Left"
+                                        />
+                                    </TextBox.Background>
+                                </TextBox>
+
+                                <TextBlock Text="Số ĐT : "
+                                            Foreground="Black"
+                                            FontSize="14"
+                                            FontFamily="Century Gothic"
+                                            Margin="48,215,261,305"
+                                           />
+                                <TextBox x:Name="_sdt"
+                                            Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}"
+                                            FontSize="13"
+                                            FontWeight="Medium"
+                                            FontFamily="Monterrat"
+                                            Foreground="Black"
+                                            CaretBrush="Black"
+                                            BorderBrush="Black"
+                                            BorderThickness="0,0,0,1"
+                                            Height="34"
+                                            VerticalAlignment="Top"
+                                            VerticalContentAlignment="Center"
+                                            Margin="151,194,49,0"
+                                            Padding="0,8,0,0">
+
+                                    <TextBox.Background>
+                                        <ImageBrush 
+                                            Stretch="None"
+                                            AlignmentX="Left"
+                                        />
+                                    </TextBox.Background>
+                                </TextBox>
+
+                                <TextBlock Text="Email: "
+                                            Foreground="Black"
+                                            FontSize="14"
+                                            FontFamily="Century Gothic"
+                                            Margin="48,248,261,273"
+                                           />
+                                <TextBox x:Name="_email"
+                                            Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"
+                                            FontSize="13"
+                                            FontWeight="Medium"
+                                            FontFamily="Monterrat"
+                                            Foreground="Black"
+                                            CaretBrush="Black"
+                                            BorderBrush="Black"
+                                            BorderThickness="0,0,0,1"
+                                            Height="29"
+                                            VerticalAlignment="Top"
+                                            VerticalContentAlignment="Center"
+                                            Margin="151,233,49,0"
+                                            Padding="0,8,0,0">
+
+                                    <TextBox.Background>
+                                        <ImageBrush 
+                                            Stretch="None"
+                                            AlignmentX="Left"
+                                        />
+                                    </TextBox.Background>
+                                </TextBox>
+
                                 <TextBlock Text="Loại tài khoản :"
                                            Foreground="Black"
                                            FontSize="14"
                                            FontFamily="Century Gothic"
-                                           Margin="48,177,246,346"/>
+                                           Margin="48,299,246,227" RenderTransformOrigin="0.354,-1.379"/>
 
                                 <ComboBox ItemsSource="{Binding AccountTypeItemsSource}"
                                           SelectedItem="{Binding SelectedAccountType}"
                                           VerticalAlignment="Top"
-                                          Margin="173,177,49,0"
+                                          Margin="173,285,49,0"
                                           RenderTransformOrigin="0.201,0.671"
-                                          Height="26" />
+                                          Height="28" />
 
 
 
@@ -341,7 +448,15 @@
                                     FontSize="13"
                                     Foreground="White"
                                     Cursor="Hand"
-                                    Margin="34,358,197,146">
+                                    Margin="35,441,196,76" RenderTransformOrigin="0.5,0.5">
+                                    <Button.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform AngleX="1.894"/>
+                                            <RotateTransform/>
+                                            <TranslateTransform X="-0.767"/>
+                                        </TransformGroup>
+                                    </Button.RenderTransform>
 
                                     <Button.Style>
                                         <Style TargetType="Button" >
@@ -369,13 +484,14 @@
 
                                 <Button
                                     x:Name="btn_Xoa"
+                                    Command="{Binding DeleteCommand}"
                                     BorderThickness="0"
                                     Content="Xóa"
                                     FontFamily="Century Gothic"
                                     FontSize="13"
                                     Foreground="White"
                                     Cursor="Hand"
-                                    Margin="210,358,21,145" RenderTransformOrigin="0.519,1.303">
+                                    Margin="210,439,21,74" RenderTransformOrigin="0.519,1.303">
 
                                     <Button.Style>
                                         <Style TargetType="{x:Type Button}" >
@@ -403,12 +519,13 @@
                                 <Button
                                     x:Name="btn_Sua"
                                     BorderThickness="0"
-                                    Content="Sửa"
+                                    Content="Xuất file"
                                     FontFamily="Century Gothic"
                                     FontSize="13"
+                                    Click="ExportButton_Click"
                                     Foreground="White"
                                     Cursor="Hand"
-                                    Margin="36,450,194,34" RenderTransformOrigin="0.5,0.5">
+                                    Margin="36,484,194,34" RenderTransformOrigin="0.5,0.5">
 
                                     <Button.Style>
                                         <Style TargetType="{x:Type Button}" >
@@ -435,13 +552,14 @@
                                 </Button>
                                 <Button
                                     x:Name="btn_Capnhat"
+                                    Command="{Binding UpdateCommand}"
                                     BorderThickness="0"
                                     Content="Cập nhật"
                                     FontFamily="Century Gothic"
                                     FontSize="13"
                                     Foreground="White"
                                     Cursor="Hand"
-                                    Margin="210,449,21,34" >
+                                    Margin="210,484,21,34" >
 
                                     <Button.Style>
                                         <Style TargetType="{x:Type Button}" >
