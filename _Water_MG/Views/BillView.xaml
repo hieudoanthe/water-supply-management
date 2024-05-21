@@ -426,14 +426,15 @@ TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                                 <Grid Grid.Column="1">
                                     <DataGrid
                                           Name ="dgView_Thongtinhoadon"
-                                          ItemsSource="{Binding PdfFiles}"
+                                          ItemsSource="{Binding PdfContents}"
                                           AutoGenerateColumns="False"
                                           ColumnWidth="*"
                                           Background="#7163ba"
                                           BorderThickness="0.1"
                                           Margin="10,0,0,0">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn FontFamily="Times New Roman" Header="File PDF" Binding="{Binding}" />
+                                            <DataGridTextColumn Header="Page Number" Binding="{Binding PageNumber}" />
+                                            <DataGridTextColumn Header="Content" Binding="{Binding Content}" />
                                         </DataGrid.Columns>
                                         <DataGrid.ColumnHeaderStyle>
                                             <Style TargetType="DataGridColumnHeader">

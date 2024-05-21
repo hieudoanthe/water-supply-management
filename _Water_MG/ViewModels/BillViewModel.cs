@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using _Water_MG.Models;
-using System.IO;
+using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas.Parser;
 using MigraDocCore.DocumentObjectModel;
 using MigraDocCore.Rendering;
-using System.Reflection;
-using PdfSharp.Fonts;
+using MigraDocCore.DocumentObjectModel.Tables;
 
 namespace _Water_MG.ViewModels
 {
@@ -67,7 +68,7 @@ namespace _Water_MG.ViewModels
             }
         }
         public ObservableCollection<Bill> Bills { get; set; }
-        public ObservableCollection<string> PdfFiles { get; set; }
+        public ObservableCollection<PdfContent> PdfContents { get; set; }
 
         public ICommand CreateBillCommand { get; }
         public ICommand GeneratePdfCommand { get; }
@@ -78,7 +79,7 @@ namespace _Water_MG.ViewModels
             CreateBillCommand = new ViewModelCommand(ExecuteCreateBillCommand, CanExecuteCreateBillCommand);
             GeneratePdfCommand = new ViewModelCommand(ExecuteGeneratePdfCommand, CanExecuteGeneratePdfCommand);
             Bills = new ObservableCollection<Bill>();
-            PdfFiles = new ObservableCollection<string>();
+            PdfContents = new ObservableCollection<PdfContent>();
             LoadData();
         }
 
@@ -165,6 +166,7 @@ namespace _Water_MG.ViewModels
                     BillingAmount = _selectedBill.AmountDue;
                     BillingDate = _selectedBill.BillingDate;
                     GeneratePdfForSelectedBill();
+                    LoadPdfContentForSelectedBill();
                 }
             }
         }
@@ -188,97 +190,126 @@ namespace _Water_MG.ViewModels
             if (SelectedBill != null)
             {
                 GeneratePdfForSelectedBill();
+                LoadPdfContentForSelectedBill();
             }
         }
 
         private void GeneratePdfForSelectedBill()
+{
+    try
+    {
+        string fileName = $"Bill_{SelectedBill.BillId}.pdf";
+        string filePath = Path.Combine(Environment.CurrentDirectory, fileName);
+
+        // Tạo tài liệu mới
+        Document document = new Document();
+        Section section = document.AddSection();
+
+        // Thêm tiêu đề
+        Paragraph paragraph = section.AddParagraph();
+        paragraph.Format.Alignment = ParagraphAlignment.Center;
+        paragraph.Format.Font.Size = 16;
+        paragraph.Format.Font.Bold = true;
+        paragraph.AddFormattedText($"Hóa Đơn: {SelectedBill.BillId}", TextFormat.Bold);
+
+        // Thêm khoảng trắng
+        section.AddParagraph().AddLineBreak();
+
+        // Thêm thông tin khách hàng
+
+        paragraph = section.AddParagraph();
+        paragraph.Format.Font.Size = 12;
+        paragraph.AddFormattedText("Kính gửi quý khách, đây là hóa đơn nước của tháng này. Quý khách vui lòng thanh toán trong vòng 3 ngày kể từ lúc nhận được mail này!", TextFormat.Bold);
+
+
+        // Thêm bảng chi tiết
+        Table table = section.AddTable();
+        table.Borders.Width = 0.75;
+
+        // Định nghĩa các cột
+        Column column = table.AddColumn("4cm");
+        column.Format.Alignment = ParagraphAlignment.Center;
+        column = table.AddColumn("8cm");
+        column.Format.Alignment = ParagraphAlignment.Center;
+
+        // Thêm hàng tiêu đề
+        Row row = table.AddRow();
+        row.Shading.Color = Colors.LightGray;
+        row.Cells[0].AddParagraph("Thông Tin");
+        row.Cells[0].Format.Font.Bold = true;
+        row.Cells[1].AddParagraph("Giá Trị");
+        row.Cells[1].Format.Font.Bold = true;
+
+        // Thêm các hàng dữ liệu
+        row = table.AddRow();
+        row.Cells[0].AddParagraph("Mã Khách Hàng");
+        row.Cells[1].AddParagraph(SelectedBill.CustomerId.ToString());
+
+        row = table.AddRow();
+        row.Cells[0].AddParagraph("Ngày Lập");
+        row.Cells[1].AddParagraph(SelectedBill.BillingDate.ToShortDateString());
+
+        row = table.AddRow();
+        row.Cells[0].AddParagraph("Số Tiền");
+        row.Cells[1].AddParagraph($"{SelectedBill.AmountDue} VND");
+
+        row = table.AddRow();
+        row.Cells[0].AddParagraph("Trạng Thái");
+        row.Cells[1].AddParagraph(SelectedBill.IsPaid ? "Đã Thanh Toán" : "Chưa Thanh Toán");
+
+        // Render và lưu file PDF
+        PdfDocumentRenderer pdfRenderer = new PdfDocumentRenderer(true);
+        pdfRenderer.Document = document;
+        pdfRenderer.RenderDocument();
+        pdfRenderer.Save(filePath);
+
+        ErrorMessage = $"Đã tạo file PDF: {filePath}";
+    }
+    catch (Exception ex)
+    {
+        ErrorMessage = $"Đã xảy ra lỗi khi tạo file PDF: {ex.Message}";
+    }
+}
+
+
+        private void LoadPdfContentForSelectedBill()
         {
             try
             {
                 string fileName = $"Bill_{SelectedBill.BillId}.pdf";
                 string filePath = Path.Combine(Environment.CurrentDirectory, fileName);
 
-                Document document = new Document();
-                Section section = document.AddSection();
-
-                // Add document content
-                var paragraph = section.AddParagraph($"Hóa Đơn: {SelectedBill.BillId}");
-                paragraph.Format.Font.Name = "Times New Roman";
-                paragraph.Format.Font.Size = 12;
-
-                paragraph = section.AddParagraph($"Mã Khách Hàng: {SelectedBill.CustomerId}");
-                paragraph.Format.Font.Name = "Times New Roman";
-                paragraph.Format.Font.Size = 12;
-
-                paragraph = section.AddParagraph($"Ngày Lập: {SelectedBill.BillingDate.ToShortDateString()}");
-                paragraph.Format.Font.Name = "Times New Roman";
-                paragraph.Format.Font.Size = 12;
-
-                paragraph = section.AddParagraph($"Số Tiền: {SelectedBill.AmountDue} VND");
-                paragraph.Format.Font.Name = "Times New Roman";
-                paragraph.Format.Font.Size = 12;
-
-                paragraph = section.AddParagraph($"Trạng Thái: {(SelectedBill.IsPaid ? "Đã Thanh Toán" : "Chưa Thanh Toán")}");
-                paragraph.Format.Font.Name = "Times New Roman";
-                paragraph.Format.Font.Size = 12;
-
-                // Embed font
-                GlobalFontSettings.FontResolver = new FontResolver();
-
-                PdfDocumentRenderer pdfRenderer = new PdfDocumentRenderer(true);
-                pdfRenderer.Document = document;
-                pdfRenderer.RenderDocument();
-                pdfRenderer.Save(filePath);
-
-                PdfFiles.Add(filePath);
-                ErrorMessage = $"Đã tạo file PDF: {filePath}";
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = $"Đã xảy ra lỗi khi tạo file PDF: {ex.Message}";
-            }
-        }
-
-        public class FontResolver : IFontResolver
-        {
-            public FontResolver()
-            {
-                // Load the font from resources
-                var assembly = Assembly.GetExecutingAssembly();
-                using (var stream = assembly.GetManifestResourceStream("_Water_MG.Styles.Times_New_Roman.ttf"))
+                if (File.Exists(filePath))
                 {
-                    if (stream != null)
+                    using (PdfReader pdfReader = new PdfReader(filePath))
                     {
-                        using (var ms = new MemoryStream())
+                        using (PdfDocument pdfDoc = new PdfDocument(pdfReader))
                         {
-                            stream.CopyTo(ms);
-                            _font = ms.ToArray();
+                            PdfContents.Clear();
+                            for (int i = 1; i <= pdfDoc.GetNumberOfPages(); i++)
+                            {
+                                var page = pdfDoc.GetPage(i);
+                                string text = PdfTextExtractor.GetTextFromPage(page);
+                                PdfContents.Add(new PdfContent
+                                {
+                                    PageNumber = i,
+                                    Content = text
+                                });
+                            }
                         }
                     }
                 }
             }
-
-            private readonly byte[] _font;
-
-            public byte[] GetFont(string faceName)
+            catch (Exception ex)
             {
-                if (faceName == "Times New Roman")
-                {
-                    return _font;
-                }
-
-                return null;
-            }
-
-            public FontResolverInfo ResolveTypeface(string familyName, bool isBold, bool isItalic)
-            {
-                if (familyName == "Times New Roman")
-                {
-                    return new FontResolverInfo("Times New Roman");
-                }
-
-                return null;
+                ErrorMessage = $"Đã xảy ra lỗi khi đọc file PDF: {ex.Message}";
             }
         }
+    }
+
+    public class PdfContent
+    {
+        public int PageNumber { get; set; }
+        public string Content { get; set; }
     }
 }
