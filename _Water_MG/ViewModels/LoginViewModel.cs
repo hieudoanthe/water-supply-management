@@ -87,7 +87,7 @@ namespace _Water_MG.ViewModels
             }
             else
             {
-                ErrorMessage = "* Invalid username or password";
+                ErrorMessage = "* Tài khoản hoặc mật khẩu sai";
             }
         }
 

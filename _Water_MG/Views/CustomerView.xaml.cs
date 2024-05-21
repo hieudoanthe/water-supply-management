@@ -31,15 +31,6 @@ namespace _Water_MG.Views
 
         }
 
-        private void dgView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void dgView_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
 
         private void ExportButton_Click(object sender, RoutedEventArgs e)
         {

@@ -4,12 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-        xmlns:local="clr-namespace:_Water_MG.Views"
-        mc:Ignorable="d"
+        xmlns:local="clr-namespace:_Water_MG.Views" xmlns:viewModel="clr-namespace:_Water_MG.ViewModels" xmlns:oxy="http://oxyplot.org/wpf"
+      mc:Ignorable="d"
         Height="650" Width="1100"
         Background="Transparent"
         FontFamily="Century Gothic">
-
+    <Page.DataContext>
+        <viewModel:MeterViewModel />
+    </Page.DataContext>
     <Border>
 
         <Border.BorderBrush>
@@ -63,7 +65,13 @@
                                >
                         </TextBlock>
                     </StackPanel>
-
+                    <TextBlock Text="{Binding ErrorMessage}"
+                                 Foreground="#D7596D"
+                                 FontSize="18"
+                                 FontWeight="Medium"
+                                 FontFamily="Montserrat"                             
+                                 Margin="251,6,0,0"
+ TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                 </Grid>
             </Border>
 
@@ -95,6 +103,7 @@
                                               Margin="20,0,0,0"/>
                                 <!-- text box search-->
                                 <TextBox x:Name="_Search"
+                                         Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}"
                                          FontSize="13"
                                          FontWeight="Medium"
                                          FontFamily="Monterrat"
@@ -121,12 +130,15 @@
                                            Margin="6,0,0,0"
                                            FontSize="14"/>
                                 <ComboBox Name="cbbox_Search"
+                                          ItemsSource="{Binding MeterTypeItemsSource}"
+                                          SelectedItem="{Binding SelectedMeterType}"
                                           VerticalAlignment="Center"
                                           Margin="30,0,10,0"
                                           Width="100"/>
                                 <!-- button search-->
                                 <Button 
                                      x:Name="btn_Search"
+                                     Command="{Binding SearchCommand}"
                                      BorderThickness="0"
                                      Content="Tìm kiếm"
                                      FontFamily="Century Gothic"
@@ -160,16 +172,40 @@
                                 </Button>
 
                             </StackPanel>
+                            
                             <!-- data grid-->
                             <Border Grid.Row="1"
                                     CornerRadius="10"
                                     Padding="10">
+                                
 
                                 <DataGrid Name="dgView" 
+                                            ItemsSource="{Binding Meters}"
+                                            SelectedItem="{Binding SelectedMeter}"
+                                            GridLinesVisibility="None"
+                                            AutoGenerateColumns="False"
                                             ColumnWidth="*"
                                             Background="#7163ba"
                                             BorderThickness="0"
                                             >
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Mã KH" Binding="{Binding CustomerId}" />
+                                        <DataGridTextColumn Header="Ngày đọc " Binding="{Binding LastReadingDate}" />
+                                        <DataGridTextColumn Header="Khối nước" Binding="{Binding LastReadingValue}" />
+                                        <DataGridTextColumn Header="Mã ĐH" Binding="{Binding MeterNumber}" />
+                                        <DataGridTextColumn Header="Trạng thái" Binding="{Binding TypeMeter}" />
+                                    </DataGrid.Columns>
+                                    <DataGrid.Resources>
+                                        <Style TargetType="DataGridCell">
+                                            <Setter Property="BorderThickness" Value="1"/>
+                                            <Setter Property="Background" Value="AliceBlue"/>
+                                            <Setter Property="Foreground" Value="Black"/>
+                                        </Style>
+                                        <Style TargetType="DataGridRow">
+                                            <Setter Property="Background" Value="Aqua"/>
+                                            <Setter Property="BorderThickness" Value="1"/>
+                                        </Style>
+                                    </DataGrid.Resources>
                                     <DataGrid.ColumnHeaderStyle>
                                         <Style TargetType="DataGridColumnHeader">
                                             <Setter Property="Background" Value="Transparent"/>
@@ -202,10 +238,11 @@
                                    Foreground="Black"
                                    FontSize="14"
                                    FontFamily="Century Gothic"
-                                   Margin="40,21,341,506"
+                                   Margin="40,27,341,499"
                                    />
                                 <!-- Mã nhân viên-->
-                                <TextBox x:Name="_MaNV"
+                                <TextBox x:Name="_MaKH"
+                                     Text="{Binding idKH, UpdateSourceTrigger=PropertyChanged}"
                                      FontSize="13"
                                      FontWeight="Medium"
                                      FontFamily="Monterrat"
@@ -229,6 +266,7 @@
                                 <!-- button thêm mới-->
                                 <Button
                                     x:Name="btn_themoi"
+                                    Command="{Binding AddMeter}"
                                     BorderThickness="0"
                                     Content="Thêm mới"
                                     FontFamily="Century Gothic"
@@ -297,9 +335,10 @@
                                 </Button>
                                 <!-- button Sửa-->
                                 <Button
-                                    x:Name="btn_sua"
+                                    x:Name="btn_khoa"
+                                    Command="{Binding LockMeter}"
                                     BorderThickness="0"
-                                    Content="Sửa"
+                                    Content="Tạm khóa"
                                     FontFamily="Century Gothic"
                                     FontSize="13"
                                     Foreground="White"
@@ -334,6 +373,7 @@
                                     x:Name="btn_xoa"
                                     BorderThickness="0"
                                     Content="Xóa"
+                                    Command="{Binding DeleteMeter}"
                                     FontFamily="Century Gothic"
                                     FontSize="13"
                                     Foreground="White"
@@ -366,6 +406,7 @@
                                 <!-- button cập nhật-->
                                 <Button
                                     x:Name="btn_capnhat"
+                                    Command="{Binding UpdateMeter}"
                                     BorderThickness="0"
                                     Content="Cập nhật"
                                     FontFamily="Century Gothic"
@@ -432,61 +473,36 @@
                                         </ControlTemplate>
                                     </Button.Template>
                                 </Button>
-                                <TextBlock Text="Họ tên :"
+                                <TextBlock Text="Ngày lắp đặt :"
                                     Foreground="Black"
                                     FontSize="14"
                                     FontFamily="Century Gothic"
-                                    Margin="40,65,341,462"
+                                    Margin="37,81,344,445" RenderTransformOrigin="0.406,-1.1"
                                    />
-                                <TextBlock Text="Ngày sinh :"
+                                <TextBlock Text="Số nước/ tháng :"
                                     Foreground="Black"
                                     FontSize="14"
                                     FontFamily="Century Gothic"
-                                    Margin="40,112,341,415"
+                                    Margin="40,168,316,356" RenderTransformOrigin="0.504,0.222"
                                    />
-                                <TextBlock Text="Địa chỉ :"
-                                    Foreground="Black"
-                                    FontSize="14"
-                                    FontFamily="Century Gothic"
-                                    Margin="40,159,341,367"
-                                   />
-                                <TextBlock Text="Số DT :"
-                                    Foreground="Black"
-                                    FontSize="14"
-                                    FontFamily="Century Gothic"
-                                    Margin="40,204,341,322" RenderTransformOrigin="0.515,0.149"
-                                   />
+                                <TextBlock Text="Số hiệu ĐH :"
+                                                Foreground="Black"
+                                                FontSize="14"
+                                                FontFamily="Century Gothic"
+                                                Margin="40,214,316,311" RenderTransformOrigin="0.504,0.222"
+                                               />
                                 <TextBlock Text="Trạng thái :"
                                     Foreground="Black"
                                     FontSize="14"
                                     FontFamily="Century Gothic"
-                                    Margin="40,293,352,232"
+                                    Margin="37,258,355,265" RenderTransformOrigin="0.425,-0.381"
                                    />
-                                <TextBox x:Name="_Hoten"
-                                    FontSize="13"
-                                    FontWeight="Medium"
-                                    FontFamily="Monterrat"
-                                    Foreground="Black"
-                                    CaretBrush="Black"
-                                    BorderBrush="Black"
-                                    BorderThickness="0,0,0,1"
-                                    Height="32"
-                                    VerticalAlignment="Top"
-                                    VerticalContentAlignment="Center"
-                                    Margin="175,55,25,0"
-                                    Padding="0,8,0,0">
-
-                                    <TextBox.Background>
-                                        <ImageBrush 
-                                            Stretch="None"
-                                            AlignmentX="Left"
-                                        />
-                                    </TextBox.Background>
-                                </TextBox>
-                                <DatePicker Name="DP_Ngaysinh"
-                                            Margin="175,107,25,410"
+                                <DatePicker Name="DP_NgayDocDH"
+                                            SelectedDate="{Binding NewLastReadingDate, UpdateSourceTrigger=PropertyChanged}"
+                                            Margin="175,81,25,0"
                                             VerticalAlignment="Top"/>
-                                <TextBox x:Name="_Diachi"
+                                <TextBox x:Name="_SoNuoc"
+                                    Text="{Binding NewLastReadingValue, UpdateSourceTrigger=PropertyChanged}"
                                     FontSize="13"
                                     FontWeight="Medium"
                                     FontFamily="Monterrat"
@@ -507,30 +523,33 @@
                                         />
                                     </TextBox.Background>
                                 </TextBox>
-                                <TextBox x:Name="_SDT"
-                                    FontSize="13"
-                                    FontWeight="Medium"
-                                    FontFamily="Monterrat"
-                                    Foreground="Black"
-                                    CaretBrush="Black"
-                                    BorderBrush="Black"
-                                    BorderThickness="0,0,0,1"
-                                    Height="32"
-                                    VerticalAlignment="Top"
-                                    VerticalContentAlignment="Center"
-                                    Margin="175,195,25,0"
-                                    Padding="0,8,0,0">
+                                <TextBox x:Name="_sohieu"
+                                            Text="{Binding NewMeterNumber, UpdateSourceTrigger=PropertyChanged}"
+                                            FontSize="13"
+                                            FontWeight="Medium"
+                                            FontFamily="Monterrat"
+                                            Foreground="Black"
+                                            CaretBrush="Black"
+                                            BorderBrush="Black"
+                                            BorderThickness="0,0,0,1"
+                                            Height="32"
+                                            VerticalAlignment="Top"
+                                            VerticalContentAlignment="Center"
+                                            Margin="175,196,25,0"
+                                            Padding="0,8,0,0">
 
                                     <TextBox.Background>
                                         <ImageBrush 
-                                            Stretch="None"
-                                            AlignmentX="Left"
-                                        />
+                                                Stretch="None"
+                                                AlignmentX="Left"
+                                            />
                                     </TextBox.Background>
                                 </TextBox>
                                 <ComboBox Name="cbbox_Trangthai"
-                                          Margin="175,286,25,0"
-                                          VerticalAlignment="Top"/>
+                                          ItemsSource="{Binding MeterTypeItemsSource}"
+                                          SelectedItem="{Binding SelectedMeterType}"
+                                          Margin="175,254,25,0"
+                                          VerticalAlignment="Top" RenderTransformOrigin="0.5,-0.262"/>
 
                             </Grid>
                         </GroupBox>

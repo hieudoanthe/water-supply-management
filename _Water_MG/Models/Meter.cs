@@ -23,6 +23,8 @@ namespace _Water_MG.Models
 
         public decimal? LastReadingValue { get; set; }
 
+        public string TypeMeter {  get; set; }
+
         [ForeignKey("CustomerId")]
         public virtual Customer Customer { get; set; }
     }

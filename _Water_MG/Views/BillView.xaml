@@ -4,12 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-        xmlns:local="clr-namespace:_Water_MG.Views"
-        mc:Ignorable="d"
+        xmlns:local="clr-namespace:_Water_MG.Views" xmlns:viewModel="clr-namespace:_Water_MG.ViewModels"
+      mc:Ignorable="d"
         Height="650" Width="1100"
         Background="Transparent"
         FontFamily="Century Gothic">
-
+    <Page.DataContext>
+        <viewModel:BillViewModel />
+    </Page.DataContext>
     <Border>
 
         <Border.BorderBrush>
@@ -72,7 +74,13 @@
                                >
                         </TextBlock>
                     </StackPanel>
-                    
+                    <TextBlock Text="{Binding ErrorMessage}"
+                                Foreground="#D7596D"
+                                FontSize="18"
+                                FontWeight="Medium"
+                                FontFamily="Montserrat"                             
+                                Margin="251,6,0,0"
+TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                 </Grid>
             </Border>
 
@@ -147,28 +155,18 @@
                                             />
                                             </TextBox.Background>
                                         </TextBox>
-                                        <TextBlock Text="Danh mục:"
-                                               VerticalAlignment="Center"
-                                               Foreground="Black"
-                                               Margin="30,0,0,0"
-                                               FontSize="14"/>
-                                        <ComboBox Name="cbbox_Search"
-                                              VerticalAlignment="Center"
-                                              Margin="5,0,0,0"
-                                              Width="108"/>
-                                        <!-- button search-->
                                         <Button 
-                                             x:Name="btn_Search"
+                                             x:Name="btn_Delete"
                                              BorderThickness="0"
-                                             Content="Tìm kiếm"
+                                             Content="Xóa"
                                              FontFamily="Century Gothic"
                                              FontSize="14"
                                              Foreground="White"                                  
                                              Cursor="Hand"
-                                             Margin="10,0,0,0" Width="95">
+                                             Width="250" RenderTransformOrigin="2.722,0.52">
 
                                             <Button.Style>
-                                                <Style TargetType="Button">
+                                                <Style TargetType="{x:Type Button}">
                                                     <Setter Property="Background" Value="#7163ba"/>
                                                     <Style.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">
@@ -179,7 +177,7 @@
                                             </Button.Style>
 
                                             <Button.Template>
-                                                <ControlTemplate TargetType="Button">
+                                                <ControlTemplate TargetType="{x:Type Button}">
                                                     <Border Width="80"
                                                     Height="30"
                                                     CornerRadius="10"
@@ -190,15 +188,17 @@
                                                 </ControlTemplate>
                                             </Button.Template>
                                         </Button>
+
+                                        <!-- button search-->
                                     </StackPanel>
 
                                     <Grid Grid.Row="1">
                                         <!-- Button sua-->
                                         <!-- button cap nhat-->
                                         <Button 
-                                            x:Name="btn_Capnhat"
+                                            x:Name="btn_thanhtoan"
                                             BorderThickness="0"
-                                            Content="Cập nhật"
+                                            Content="Yêu cầu TT"
                                             FontFamily="Century Gothic"
                                             FontSize="14"
                                             Foreground="White"                                  
@@ -229,11 +229,12 @@
                                                 </ControlTemplate>
                                             </Button.Template>
                                         </Button>
-                                        <!-- button xóa-->
+                                        <!-- button tao hoa don-->
                                         <Button 
-                                            x:Name="btn_Xoa"
+                                            x:Name="btn_taohoadon"
+                                            Command="{Binding CreateBillCommand}"
                                             BorderThickness="0"
-                                            Content="Xóa"
+                                            Content="Tạo hóa đơn"
                                             FontFamily="Century Gothic"
                                             FontSize="14"
                                             Foreground="White"                                  
@@ -295,12 +296,13 @@
                                        />
                                     <!-- Mã hóa đơn-->
                                     <TextBox x:Name="_Mahoadon"
+                                         Text="{Binding BillId, UpdateSourceTrigger=PropertyChanged}"
                                          FontSize="13"
                                          FontWeight="Medium"
                                          FontFamily="Monterrat"
-                                         Foreground="White"
-                                         CaretBrush="LightGray"
-                                         BorderBrush="DarkGray"
+                                         Foreground="Black"
+                                         CaretBrush="Black"
+                                         BorderBrush="Black"
                                          BorderThickness="0,0,0,1"
                                          Height="28"
                                          VerticalAlignment="Top"
@@ -315,14 +317,15 @@
                                                             />
                                         </TextBox.Background>
                                     </TextBox>
-                                    <!-- Mã nhân viên-->
-                                    <TextBox x:Name="_MaNV"
+                                    <!-- Mã KH-->
+                                    <TextBox x:Name="_MaKH"
+                                        Text="{Binding IdKH, UpdateSourceTrigger=PropertyChanged}"
                                         FontSize="13"
                                         FontWeight="Medium"
                                         FontFamily="Monterrat"
-                                        Foreground="White"
-                                        CaretBrush="LightGray"
-                                        BorderBrush="DarkGray"
+                                        Foreground="Black"
+                                        CaretBrush="Black"
+                                        BorderBrush="Black"
                                         BorderThickness="0,0,0,1"
                                         Height="28"
                                         VerticalAlignment="Top"
@@ -339,12 +342,13 @@
                                     </TextBox>
                                     <!-- ĐƠn giá-->
                                     <TextBox x:Name="_Dongia"
+                                        Text="{Binding BillingAmount, UpdateSourceTrigger=PropertyChanged}"
                                         FontSize="13"
                                         FontWeight="Medium"
                                         FontFamily="Monterrat"
-                                        Foreground="White"
-                                        CaretBrush="LightGray"
-                                        BorderBrush="DarkGray"
+                                        Foreground="Black"
+                                        CaretBrush="Black"
+                                        BorderBrush="Black"
                                         BorderThickness="0,0,0,1"
                                         Height="28"
                                         VerticalAlignment="Top"
@@ -361,6 +365,7 @@
                                     </TextBox>
                                     <!-- Date picker-->
                                     <DatePicker Name="DP_Ngaylap"
+                                                SelectedDate="{Binding BillingDate, UpdateSourceTrigger=PropertyChanged}"
                                                 Height="28"
                                                 Margin="175,113,25,15"/>
                                 </Grid>
@@ -381,10 +386,31 @@
                                 <!-- Thông tin hóa đơn -->
                                 <Grid Grid.Column="0">
                                     <DataGrid
+                                      ItemsSource="{Binding Bills}"
+                                      SelectedItem="{Binding SelectedBill}"
+                                      AutoGenerateColumns="False"
+                                      GridLinesVisibility="None"
                                       Name ="dgView_Hoadon"
                                       ColumnWidth="*"
                                       Background="#7163ba"
                                       BorderThickness="0.1">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Mã HĐ" Binding="{Binding BillId}" />
+                                            <DataGridTextColumn Header="Mã KH" Binding="{Binding CustomerId}" />
+                                            <DataGridTextColumn Header="Ngày tạo" Binding="{Binding BillingDate}" />
+                                            <DataGridTextColumn Header="Đơn giá/VNĐ" Binding="{Binding AmountDue}" />
+                                        </DataGrid.Columns>
+                                        <DataGrid.Resources>
+                                            <Style TargetType="DataGridCell">
+                                                <Setter Property="BorderThickness" Value="1"/>
+                                                <Setter Property="Background" Value="AliceBlue"/>
+                                                <Setter Property="Foreground" Value="Black"/>
+                                            </Style>
+                                            <Style TargetType="DataGridRow">
+                                                <Setter Property="Background" Value="Aqua"/>
+                                                <Setter Property="BorderThickness" Value="1"/>
+                                            </Style>
+                                        </DataGrid.Resources>
                                         <DataGrid.ColumnHeaderStyle>
                                             <Style TargetType="DataGridColumnHeader">
                                                 <Setter Property="Background" Value="Transparent"/>
@@ -400,10 +426,15 @@
                                 <Grid Grid.Column="1">
                                     <DataGrid
                                           Name ="dgView_Thongtinhoadon"
+                                          ItemsSource="{Binding PdfFiles}"
+                                          AutoGenerateColumns="False"
                                           ColumnWidth="*"
                                           Background="#7163ba"
                                           BorderThickness="0.1"
                                           Margin="10,0,0,0">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn FontFamily="Times New Roman" Header="File PDF" Binding="{Binding}" />
+                                        </DataGrid.Columns>
                                         <DataGrid.ColumnHeaderStyle>
                                             <Style TargetType="DataGridColumnHeader">
                                                 <Setter Property="Background" Value="Transparent"/>

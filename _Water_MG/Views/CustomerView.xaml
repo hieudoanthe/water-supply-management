@@ -186,7 +186,7 @@
                                             BorderThickness="0"
                                             ItemsSource="{Binding Customers}" 
                                             AutoGenerateColumns="False"
-                                            SelectedItem="{Binding SelectedCustomer}" SelectionChanged="dgView_SelectionChanged_1">
+                                            SelectedItem="{Binding SelectedCustomer}">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Mã KH" Binding="{Binding CustomerId}" />
                                     <DataGridTextColumn Header="Họ và Tên" Binding="{Binding Name}" />

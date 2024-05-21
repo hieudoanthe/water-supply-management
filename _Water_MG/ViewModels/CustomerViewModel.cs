@@ -101,8 +101,8 @@ namespace _Water_MG.ViewModels
             set
             {
                 _searchKeyword = value;
-                OnPropertyChanged(nameof(SearchKeyword)); // Kích hoạt sự kiện PropertyChanged
-                FilterCustomers(); // Gọi phương thức lọc dữ liệu khi từ khóa tìm kiếm thay đổi
+                OnPropertyChanged(nameof(SearchKeyword));
+                FilterCustomers();
             }
         }
 
@@ -167,7 +167,6 @@ namespace _Water_MG.ViewModels
         public ICommand RegisterCommand { get; }
         public ICommand DeleteCommand { get; }
         public ICommand UpdateCommand { get; }
-
         public ICommand SearchCommand { get; }
         // Constructor
         public CustomerViewModel()
@@ -339,14 +338,13 @@ namespace _Water_MG.ViewModels
                 if (SelectedCustomer != null)
                 {
                     // Lấy thông tin mới từ giao diện và cập nhật vào đối tượng SelectedCustomer
-                    SelectedCustomer.Name = FullName; // Ví dụ: UpdatedName là thuộc tính Binding của TextBox
+                    SelectedCustomer.Name = FullName; 
                     SelectedCustomer.Email = Email;
                     SelectedCustomer.Address = Address;
                     SelectedCustomer.PhoneNumber = PhoneNumber;
                     // Cập nhật dữ liệu vào cơ sở dữ liệu
                     _dbContext.SaveChanges();
 
-                    // Hiển thị thông báo hoặc thực hiện hành động sau khi cập nhật thành công
                     ErrorMessage = "Cập nhật dữ liệu thành công!";
                     LoadData();
                     Username = "";
@@ -383,6 +381,8 @@ namespace _Water_MG.ViewModels
                 Customers.Add(customer); 
             }
         }
+
+
 
         /*        LỌC - LỰA CHỌN TÌM KIẾM*/
         private bool CanExecuteSearchCommand(object obj)
