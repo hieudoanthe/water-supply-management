@@ -135,6 +135,7 @@ TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                                                   Margin="20,0,0,0"/>
                                         <!-- text box search-->
                                         <TextBox x:Name="_Search"
+                                             Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}"
                                              FontSize="13"
                                              FontWeight="Medium"
                                              FontFamily="Monterrat"
@@ -145,7 +146,7 @@ TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                                              Height="20"
                                              VerticalContentAlignment="Center"
                                              Margin="5,0,0,0"
-                                             Width="200">
+                                             Width="324">
 
 
                                             <TextBox.Background>
@@ -157,13 +158,14 @@ TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                                         </TextBox>
                                         <Button 
                                              x:Name="btn_Delete"
+                                             Command="{Binding DeleteBillCommand}"
                                              BorderThickness="0"
                                              Content="Xóa"
                                              FontFamily="Century Gothic"
                                              FontSize="14"
                                              Foreground="White"                                  
                                              Cursor="Hand"
-                                             Width="250" RenderTransformOrigin="2.722,0.52">
+                                             Width="143" >
 
                                             <Button.Style>
                                                 <Style TargetType="{x:Type Button}">
@@ -193,17 +195,22 @@ TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                                     </StackPanel>
 
                                     <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="343*"/>
+                                            <ColumnDefinition Width="227*"/>
+                                        </Grid.ColumnDefinitions>
                                         <!-- Button sua-->
                                         <!-- button cap nhat-->
                                         <Button 
                                             x:Name="btn_thanhtoan"
+                                            Command="{Binding RequestPaymentCommand}"
                                             BorderThickness="0"
-                                            Content="Yêu cầu TT"
+                                            Content="Yêu cầu tt"
                                             FontFamily="Century Gothic"
                                             FontSize="14"
                                             Foreground="White"                                  
                                             Cursor="Hand"
-                                            Margin="285,16,131,17"
+                                            Margin="245,16,172,17" RenderTransformOrigin="0.92,0.504" Grid.ColumnSpan="2"
                                             >
 
                                             <Button.Style>
@@ -239,7 +246,7 @@ TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                                             FontSize="14"
                                             Foreground="White"                                  
                                             Cursor="Hand"
-                                            Margin="96,16,320,17">
+                                            Margin="116,16,73,17">
 
                                             <Button.Style>
                                                 <Style TargetType="{x:Type Button}">
@@ -274,25 +281,25 @@ TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                                        Foreground="Black"
                                        FontSize="14"
                                        FontFamily="Century Gothic"
-                                       Margin="39,10,340,119"
+                                       Margin="10,10,340,119"
                                        />
                                     <TextBlock Text="Mã KH:"
                                         Foreground="Black"
                                         FontSize="14"
                                         FontFamily="Century Gothic"
-                                        Margin="39,47,337,82"
+                                        Margin="10,47,337,82"
                                        />
                                     <TextBlock Text="Đơn giá:"
                                         Foreground="Black"
                                         FontSize="14"
                                         FontFamily="Century Gothic"
-                                        Margin="39,87,336,42"
+                                        Margin="10,87,336,42"
                                        />
                                     <TextBlock Text="Ngày lập:"
                                         Foreground="Black"
                                         FontSize="14"
                                         FontFamily="Century Gothic"
-                                        Margin="39,122,333,7"
+                                        Margin="10,122,333,7"
                                        />
                                     <!-- Mã hóa đơn-->
                                     <TextBox x:Name="_Mahoadon"
@@ -428,14 +435,41 @@ TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                                           Name ="dgView_Thongtinhoadon"
                                           ItemsSource="{Binding PdfContents}"
                                           AutoGenerateColumns="False"
+                                          GridLinesVisibility="None"
                                           ColumnWidth="*"
                                           Background="#7163ba"
                                           BorderThickness="0.1"
                                           Margin="10,0,0,0">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Page Number" Binding="{Binding PageNumber}" />
-                                            <DataGridTextColumn Header="Content" Binding="{Binding Content}" />
+                                            <DataGridTextColumn Header="Nội Dung" Binding="{Binding Content}" Width="*">
+                                                <DataGridTextColumn.HeaderStyle>
+                                                    <Style TargetType="DataGridColumnHeader">
+                                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                    </Style>
+                                                </DataGridTextColumn.HeaderStyle>
+                                                <DataGridTextColumn.ElementStyle>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                    </Style>
+                                                </DataGridTextColumn.ElementStyle>
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell">
+                                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
                                         </DataGrid.Columns>
+                                        <DataGrid.Resources>
+                                            <Style TargetType="DataGridCell">
+                                                <Setter Property="BorderThickness" Value="1"/>
+                                                <Setter Property="Background" Value="AliceBlue"/>
+                                                <Setter Property="Foreground" Value="Black"/>
+                                            </Style>
+                                            <Style TargetType="DataGridRow">
+                                                <Setter Property="Background" Value="Aqua"/>
+                                                <Setter Property="BorderThickness" Value="1"/>
+                                            </Style>
+                                        </DataGrid.Resources>
                                         <DataGrid.ColumnHeaderStyle>
                                             <Style TargetType="DataGridColumnHeader">
                                                 <Setter Property="Background" Value="Transparent"/>
