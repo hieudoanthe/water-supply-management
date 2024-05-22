@@ -52,10 +52,10 @@
 
                     <StackPanel Grid.Column="0"
                             Orientation="Vertical">
-                        <fa:IconImage Icon="Warehouse"
+                        <fa:IconImage Icon="MoneyBill"
                                   Width="20"
                                   Margin="5,5,0,0"
-                                  Foreground="Black"
+                                  Foreground="Black" Height="21"
                                   />
                     </StackPanel>
 
@@ -136,7 +136,7 @@
                                 <Button 
                                          x:Name="btn_Search"
                                          BorderThickness="0"
-                                         Content="Tìm kiếm"
+                                         Content="Lọc"
                                          FontFamily="Century Gothic"
                                          FontSize="14"
                                          Foreground="White"                                  
@@ -204,13 +204,13 @@
                                 </Style>
                             </GroupBox.Style>
                             <Grid>
-                                <TextBlock Text="Mã hàng:"
+                                <TextBlock Text="Mã KH:"
                                        Foreground="Black"
                                        FontSize="14"
                                        FontFamily="Century Gothic"
                                        Margin="40,37,310,490"
                                        />
-                                <TextBlock Text="Tên hàng:"
+                                <TextBlock Text="Tên KH:"
                                         Foreground="Black"
                                         FontSize="14"
                                         FontFamily="Century Gothic"
@@ -223,18 +223,10 @@
                                     Foreground="Black"
                                     FontSize="14"
                                     FontFamily="Century Gothic" Margin="40,175,310,353"/>
-                                <TextBlock Text="Nhà sản xuất:"
-                                    Foreground="Black"
-                                    FontSize="14"
-                                    FontFamily="Century Gothic" Margin="40,216,310,315"/>
-                                <TextBlock Text="Số lượng còn:"
-                                    Foreground="Black"
-                                    FontSize="14"
-                                    FontFamily="Century Gothic" Margin="40,258,310,272"/>
                                 <TextBlock
                                     Foreground="Black"
                                     FontSize="14"
-                                    FontFamily="Century Gothic" Margin="40,307,310,225"><Run Text="Loại :"/><LineBreak/><Run/></TextBlock>
+                                    FontFamily="Century Gothic" Margin="40,279,310,253"><Run Text="Loại :"/><LineBreak/><Run/></TextBlock>
                                 <TextBlock Text="Ngày cập nhật:"
                                     Foreground="Black"
                                     FontSize="14"
@@ -251,7 +243,7 @@
                                      Height="28"
                                      VerticalAlignment="Top"
                                      VerticalContentAlignment="Center"
-                                     Margin="175,37,25,0"
+                                     Margin="163,22,37,0"
                                      Padding="0,8,0,0" >
 
                                     <TextBox.Background>
@@ -273,7 +265,7 @@
                                     Height="28"
                                     VerticalAlignment="Top"
                                     VerticalContentAlignment="Center"
-                                    Margin="175,74,25,0"
+                                    Margin="163,70,37,0"
                                     Padding="0,8,0,0">
 
                                     <TextBox.Background>
@@ -283,12 +275,6 @@
                                             />
                                     </TextBox.Background>
                                 </TextBox>
-                                <!-- Combobox Đơn vị tính -->
-                                <ComboBox x:Name="cbbox_dvt"
-                                      Height="28"
-                                      Margin="332,129,25,0"
-                                      Background="DarkGray"
-                                      VerticalAlignment="Top"/>
                                 <TextBox x:Name="_Dongia"
                                 FontSize="13"
                                 FontWeight="Medium"
@@ -300,51 +286,8 @@
                                 Height="28"
                                 VerticalAlignment="Top"
                                 VerticalContentAlignment="Center"
-                                Margin="175,167,25,0"
+                                Margin="163,160,37,0"
                                 Padding="0,8,0,0">
-
-                                    <TextBox.Background>
-                                        <ImageBrush 
-                                        Stretch="None"
-                                        AlignmentX="Left"
-                                            />
-                                    </TextBox.Background>
-                                </TextBox>
-                                <TextBox x:Name="_NhaSX"
-                                FontSize="13"
-                                FontWeight="Medium"
-                                FontFamily="Monterrat"
-                                Foreground="Black"
-                                CaretBrush="Black"
-                                BorderBrush="Black"
-                                BorderThickness="0,0,0,1"
-                                Height="28"
-                                VerticalAlignment="Top"
-                                VerticalContentAlignment="Center"
-                                Margin="175,202,25,0"
-                                Padding="0,8,0,0">
-
-                                    <TextBox.Background>
-                                        <ImageBrush 
-                                        Stretch="None"
-                                        AlignmentX="Left"
-                                            />
-                                    </TextBox.Background>
-                                </TextBox>
-                                <!-- So luong-->
-                                <TextBox x:Name="_Soluong"
-                                FontSize="13"
-                                FontWeight="Medium"
-                                FontFamily="Monterrat"
-                                Foreground="Black"
-                                CaretBrush="Black"
-                                BorderBrush="Black"
-                                BorderThickness="0,0,0,1"
-                                Height="28"
-                                VerticalAlignment="Top"
-                                VerticalContentAlignment="Center"
-                                Margin="175,244,25,0"
-                                Padding="0,8,0,0" >
 
                                     <TextBox.Background>
                                         <ImageBrush 
@@ -356,16 +299,14 @@
                                 <!-- Mo ta -->
                                 <!--Ngay cap nhat-->
                                 <DatePicker Name="DP_Ngaycapnhat"
-                                    Margin="175,349,25,0"
+                                    Margin="163,339,37,0"
                                     Height="28"
                                     VerticalAlignment="Top"
                                     />
-                                <!-- So luong cap nhat-->
-                                <!-- button thêm mới-->
                                 <Button
                                     x:Name="btn_themoi"
                                     BorderThickness="0"
-                                    Content="Thêm mới"
+                                    Content="Chi tiết"
                                     FontFamily="Century Gothic"
                                     FontSize="13"
                                     Foreground="White"
@@ -578,7 +519,7 @@
                                 </Button>
                                 <ComboBox x:Name="cbbox_Loai"
                                     Height="28"
-                                    Margin="332,301,25,0"
+                                    Margin="158,268,42,0"
                                     Background="DarkGray"
                                     VerticalAlignment="Top"/>
                                 <TextBox x:Name="_Dvt"
@@ -592,29 +533,8 @@
                                     Height="28"
                                     VerticalAlignment="Top"
                                     VerticalContentAlignment="Center"
-                                    Margin="175,129,159,0"
+                                    Margin="163,116,37,0"
                                     Padding="0,8,0,0">
-
-                                    <TextBox.Background>
-                                        <ImageBrush 
-                                            Stretch="None"
-                                            AlignmentX="Left"
-                                            />
-                                    </TextBox.Background>
-                                </TextBox>
-                                <TextBox x:Name="_Loai"
-                                    FontSize="13"
-                                    FontWeight="Medium"
-                                    FontFamily="Monterrat"
-                                    Foreground="Black"
-                                    CaretBrush="Black"
-                                    BorderBrush="Black"
-                                    BorderThickness="0,0,0,1"
-                                    Height="28"
-                                    VerticalAlignment="Top"
-                                    VerticalContentAlignment="Center"
-                                    Margin="175,301,159,0"
-                                    Padding="0,8,0,0" >
 
                                     <TextBox.Background>
                                         <ImageBrush 

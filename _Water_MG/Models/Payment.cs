@@ -21,6 +21,8 @@ namespace _Water_MG.Models
         [Required]
         public decimal AmountPaid { get; set; }
 
+        public string TypePay {  get; set; }
+
         [ForeignKey("BillId")]
         public virtual Bill Bill { get; set; }
     }

@@ -53,7 +53,14 @@
                     </Grid.ColumnDefinitions>
 
 
-
+                    <StackPanel Grid.Column="0"
+                            Orientation="Vertical">
+                        <fa:IconImage Icon="User"
+                                  Width="20"
+                                  Margin="5,5,0,0"
+                                  Foreground="Black" Height="19"
+                                  />
+                    </StackPanel>
                     <StackPanel Grid.Column="1"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center">
@@ -210,7 +217,7 @@
                                     <Style TargetType="DataGridColumnHeader">
                                         <Setter Property="Background" Value="Transparent"/>
                                         <Setter Property="Foreground" Value="White"/>
-                                        <Setter Property="Padding" Value="10,0,0,10"/>
+                                        <Setter Property="Padding" Value="10,8,0,10"/>
                                         <Setter Property="FontFamily" Value="Century Gothic"/>
                                         <Setter Property="FontSize" Value="15"/>
                                     </Style>

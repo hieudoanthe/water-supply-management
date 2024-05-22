@@ -51,7 +51,14 @@
                         <ColumnDefinition Width="50"/>
                         <ColumnDefinition Width="10"/>
                     </Grid.ColumnDefinitions>
-
+                    <StackPanel Grid.Column="0"
+                            Orientation="Vertical">
+                        <fa:IconImage Icon="Clock"
+                                  Width="20"
+                                  Margin="5,5,0,0"
+                                  Foreground="Black" Height="18"
+                                  />
+                    </StackPanel>
                     <StackPanel Grid.Column="1"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center">
@@ -59,11 +66,8 @@
                                Foreground="Black"
                                FontSize="14"
                                FontFamily="Century Gothic"
-                               Grid.Column="1"
-                               TextAlignment="Left"
-                               VerticalAlignment="Center"                              
-                               >
-                        </TextBlock>
+                               TextAlignment="Left" Height="19"                              
+                               />
                     </StackPanel>
                     <TextBlock Text="{Binding ErrorMessage}"
                                  Foreground="#D7596D"
@@ -210,7 +214,7 @@
                                         <Style TargetType="DataGridColumnHeader">
                                             <Setter Property="Background" Value="Transparent"/>
                                             <Setter Property="Foreground" Value="White"/>
-                                            <Setter Property="Padding" Value="10,0,0,10"/>
+                                            <Setter Property="Padding" Value="10,8,0,10"/>
                                             <Setter Property="FontFamily" Value="Century Gothic"/>
                                             <Setter Property="FontSize" Value="15"/>
                                         </Style>
