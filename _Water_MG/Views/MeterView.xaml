@@ -189,7 +189,7 @@
                                             GridLinesVisibility="None"
                                             AutoGenerateColumns="False"
                                             ColumnWidth="*"
-                                            Background="#00C3AA"
+                                            Background="#7163ba"
                                             BorderThickness="0"
                                             >
                                     <DataGrid.Columns>

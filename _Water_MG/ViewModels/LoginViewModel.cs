@@ -91,10 +91,9 @@ namespace _Water_MG.ViewModels
             }
         }
 
-        private string ConvertToUnsecureString(SecureString securePassword)
+        private static string ConvertToUnsecureString(SecureString securePassword)
         {
-            if (securePassword == null)
-                throw new ArgumentNullException(nameof(securePassword));
+            ArgumentNullException.ThrowIfNull(securePassword);
 
             IntPtr unmanagedString = IntPtr.Zero;
             try

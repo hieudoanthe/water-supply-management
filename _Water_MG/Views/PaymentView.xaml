@@ -187,7 +187,7 @@
 
                                 <DataGrid x:Name="dgView"
                                           ColumnWidth="*"
-                                          Background="#00C3AA"
+                                          Background="#7163ba"
                                           ItemsSource="{Binding Payments}"
                                           SelectedItem="{Binding SelectedPayment}"
                                           GridLinesVisibility="None"

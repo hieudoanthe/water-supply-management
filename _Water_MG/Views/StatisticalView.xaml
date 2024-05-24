@@ -4,12 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-        xmlns:local="clr-namespace:_Water_MG.Views"
+        xmlns:local="clr-namespace:_Water_MG.Views" xmlns:viewModel="clr-namespace:_Water_MG.ViewModels"  xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="650" Width="1100"
         Background="Transparent"
         FontFamily="Century Gothic">
-
+    <Page.DataContext>
+        <viewModel:StatisticalViewModel/>
+    </Page.DataContext>
 
     <Border>
 
@@ -67,7 +69,7 @@
                     <StackPanel Grid.Column="1"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center">
-                        <TextBlock Text="Thống kê"
+                        <TextBlock Text="Thông báo và Thống kê"
                                Foreground="Black"
                                FontSize="14"
                                FontFamily="Century Gothic"
@@ -117,7 +119,7 @@
                                              Height="20"
                                              VerticalContentAlignment="Center"
                                              Margin="5,0,0,0"
-                                             Width="200">
+                                             Width="197">
 
 
                                     <TextBox.Background>
@@ -127,69 +129,15 @@
                                             />
                                     </TextBox.Background>
                                 </TextBox>
-                                <TextBlock Text="Danh mục:"
-                                               VerticalAlignment="Center"
-                                               Foreground="Black"
-                                               Margin="5,0,0,0"
-                                               FontSize="14"/>
-                                <ComboBox Name="cbbox_Search"
-                                              VerticalAlignment="Center"
-                                              Margin="5,0,0,0"
-                                              Width="100"/>
-                                <!-- button search-->
-                                <Button 
-                                         x:Name="btn_Search"
-                                         BorderThickness="0"
-                                         Content="Tìm kiếm"
-                                         FontFamily="Century Gothic"
-                                         FontSize="14"
-                                         Foreground="White"                                  
-                                         Cursor="Hand"
-                                        Margin="5,0,0,0">
-
-                                    <Button.Style>
-                                        <Style TargetType="Button">
-                                            <Setter Property="Background" Value="#7163ba"/>
-                                            <Style.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="#0E8388"/>
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-
-                                    <Button.Template>
-                                        <ControlTemplate TargetType="Button">
-                                            <Border Width="100"
-                                                    Height="30"
-                                                    CornerRadius="10"
-                                                    Background="{TemplateBinding Background}">
-                                                <ContentPresenter HorizontalAlignment="Center"
-                                                                                  VerticalAlignment="Center"/>
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Button.Template>
-                                </Button>
                             </StackPanel>
-                            <!-- data grid-->
                             <Border Grid.Row="1"
                                         CornerRadius="10"
                                         Padding="10">
+                                <Grid Background="AliceBlue">
+                                    <lvc:CartesianChart Series="{Binding SeriesCollection}">
+                                    </lvc:CartesianChart>
+                                </Grid>
 
-                                <DataGrid x:Name="dgView" 
-                                          ColumnWidth="*"
-                                          Background="#00C3AA"
-                                          BorderThickness="0">
-                                    <DataGrid.ColumnHeaderStyle>
-                                        <Style TargetType="DataGridColumnHeader">
-                                            <Setter Property="Background" Value="Transparent"/>
-                                            <Setter Property="Foreground" Value="White"/>
-                                            <Setter Property="Padding" Value="10,0,0,10"/>
-                                            <Setter Property="FontFamily" Value="Century Gothic"/>
-                                            <Setter Property="FontSize" Value="18"/>
-                                        </Style>
-                                    </DataGrid.ColumnHeaderStyle>
-                                </DataGrid>
                             </Border>
                         </Grid>
                     </Grid>
@@ -203,10 +151,13 @@
                         <Grid Grid.Row="0">
                             <Label Content="Tháng :" Foreground="Black" Margin="0,27,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                             <Label Content="Năm :" Foreground="Black" Margin="160,27,282,50" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                            <ComboBox Name="comboThang" Margin="50,27,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="107"/>
-                            <ComboBox x:Name="comboNam" Margin="205,27,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="95" Height="23"/>
+                            <ComboBox Name="comboThang" ItemsSource="{Binding MonthItemsSource}"
+              SelectedValue="{Binding SelectedMonth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="50,27,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="107"/>
+                            <ComboBox x:Name="comboNam" ItemsSource="{Binding YearItemsSource}"
+              SelectedValue="{Binding SelectedYear, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="210,27,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="95" Height="23"/>
                             <Button
                                     x:Name="btn_thongke"
+                                    Command="{Binding TKCommand}"
                                     BorderThickness="0"
                                     Content="Thống kê "
                                     FontFamily="Century Gothic"
@@ -253,20 +204,14 @@
                                 </GroupBox.Style>
 
                                 <Grid>
-                                    <DataGrid x:Name="dgView_Donnhap" 
-                                          ColumnWidth="*"
-                                          Background="#7163ba"
-                                          BorderThickness="0">
-                                        <DataGrid.ColumnHeaderStyle>
-                                            <Style TargetType="DataGridColumnHeader">
-                                                <Setter Property="Background" Value="Transparent"/>
-                                                <Setter Property="Foreground" Value="White"/>
-                                                <Setter Property="Padding" Value="10,0,0,10"/>
-                                                <Setter Property="FontFamily" Value="Century Gothic"/>
-                                                <Setter Property="FontSize" Value="18"/>
-                                            </Style>
-                                        </DataGrid.ColumnHeaderStyle>
-                                    </DataGrid>
+                                    <lvc:CartesianChart Series="{Binding BarSeriesCollection}">
+                                        <lvc:CartesianChart.AxisX>
+                                            <lvc:Axis Title="Tháng" Labels="{Binding Labels}" />
+                                        </lvc:CartesianChart.AxisX>
+                                        <lvc:CartesianChart.AxisY>
+                                            <lvc:Axis Title="Doanh thu" LabelFormatter="{Binding YAxisLabelFormatter}" />
+                                        </lvc:CartesianChart.AxisY>
+                                    </lvc:CartesianChart>
                                 </Grid>
                             </GroupBox>
                         </Grid>
@@ -284,28 +229,21 @@
                                 </GroupBox.Style>
 
                                 <Grid>
-                                    <DataGrid x:Name="dgView_Donban" 
-                                          ColumnWidth="*"
-                                          Background="#7163ba"
-                                          BorderThickness="0">
-                                        <DataGrid.ColumnHeaderStyle>
-                                            <Style TargetType="DataGridColumnHeader">
-                                                <Setter Property="Background" Value="Transparent"/>
-                                                <Setter Property="Foreground" Value="White"/>
-                                                <Setter Property="Padding" Value="10,0,0,10"/>
-                                                <Setter Property="FontFamily" Value="Century Gothic"/>
-                                                <Setter Property="FontSize" Value="18"/>
-                                            </Style>
-                                        </DataGrid.ColumnHeaderStyle>
-                                    </DataGrid>
+                                    <Grid Background="#7163ba">
+                                        <lvc:PieChart Series="{Binding PieSeriesCollection}" LegendLocation="Right">
+                                            <lvc:PieChart.DataTooltip>
+                                                <lvc:DefaultTooltip SelectionMode="OnlySender" />
+                                            </lvc:PieChart.DataTooltip>
+                                        </lvc:PieChart>
+                                    </Grid>
                                 </Grid>
                             </GroupBox>
                         </Grid>
                         <Grid Grid.Row="4">
-                            <Label Content="Tổng nhập:" Foreground="Black" Margin="0,19,450,58"/>
-                            <Label Content="Tổng bán :" Foreground="Black" Margin="0,50,450,10"/>
-                            <TextBox x:Name="_Tongnhap" Margin="145,19,26,58"/>
-                            <TextBox x:Name="_Tongban"  Margin="145,50,26,27"/>
+                            <Label Content="Tổng chi :"  Foreground="Black" Margin="10,20,440,50" RenderTransformOrigin="0.562,-0.04"/>
+                            <Label Content="Tổng thu :"  Foreground="Black" Margin="10,60,440,10" RenderTransformOrigin="0.562,-0.04"/>
+                            <TextBox x:Name="_Tongchi" IsEnabled="False" Text="{Binding TotalAmount, UpdateSourceTrigger=PropertyChanged}" Margin="134,25,37,55"/>
+                            <TextBox x:Name="_Tongthu" IsEnabled="False" Margin="134,65,37,15"/>
                         </Grid>
                     </Grid>
                 </Grid>

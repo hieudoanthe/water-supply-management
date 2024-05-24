@@ -188,7 +188,7 @@
 
                             <DataGrid Name="dgView"
                                             ColumnWidth="*"
-                                            Background="#00C3AA"
+                                            Background="#7163ba"
                                             GridLinesVisibility="None"
                                             BorderThickness="0"
                                             ItemsSource="{Binding Customers}" 

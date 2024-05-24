@@ -408,7 +408,7 @@ TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                                       GridLinesVisibility="None"
                                       Name ="dgView_Hoadon"
                                       ColumnWidth="*"
-                                      Background="#00C3AA"
+                                      Background="#7163ba"
                                       BorderThickness="0.1" Height="370" VerticalAlignment="Bottom">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="Mã HĐ" Binding="{Binding BillId}" />

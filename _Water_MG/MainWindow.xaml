@@ -36,7 +36,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <ListBox Grid.Row="0" Grid.Column="1" Height="Auto" ItemContainerStyle="{StaticResource ListBoxItemBackgroundStyle}" Background="#4B5966">
+        <ListBox Grid.Row="0" Grid.Column="1" Height="Auto" ItemContainerStyle="{StaticResource ListBoxItemBackgroundStyle}" Background="#cfd5e5">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel Orientation="Horizontal" FlowDirection="RightToLeft"/>
@@ -46,7 +46,7 @@
             <local:NavButton ToolTip="Closse" MouseEnter="NavButton_MouseEnter" MouseLeave="NavButton_MouseLeave" MouseLeftButtonUp="NavButton_CustomClick" IconColor="#7163ba" Margin="10,10,0,10" Height="32" Width="40"  Icon="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z"/>
             <local:NavButton ToolTip="Minimize" MouseLeftButtonUp="NavButton_ToggleWindowState" IconColor="#7163ba" Margin="0,10,10,10" Height="32" Width="40"  Icon="M17,13H7V11H17M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3Z" MouseEnter="NavButton_MouseEnter" MouseLeave="NavButton_MouseLeave"/>
         </ListBox>
-        <ListBox Width="Auto" Height="713" ItemContainerStyle="{StaticResource ListBoxItemBackgroundStyle}" Background="#00C3AA" Grid.Column="0" SelectionMode="Single" SelectionChanged="sidebar_SelectionChanged" x:Name="sidebar"  BorderThickness="0" VerticalAlignment="Top" Grid.RowSpan="2">
+        <ListBox Width="Auto" Height="713" ItemContainerStyle="{StaticResource ListBoxItemBackgroundStyle}" Background="#7163ba" Grid.Column="0" SelectionMode="Single" SelectionChanged="sidebar_SelectionChanged" x:Name="sidebar"  BorderThickness="0" VerticalAlignment="Top" Grid.RowSpan="2">
 
 
 

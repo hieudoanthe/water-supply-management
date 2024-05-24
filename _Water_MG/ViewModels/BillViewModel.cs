@@ -85,8 +85,8 @@ namespace _Water_MG.ViewModels
             GeneratePdfCommand = new ViewModelCommand(ExecuteGeneratePdfCommand, CanExecuteGeneratePdfCommand);
             RequestPaymentCommand = new ViewModelCommand(ExecuteRequestPaymentCommand, CanExecuteRequestPaymentCommand);
             DeleteBillCommand = new ViewModelCommand(ExecuteDeleteBillCommand, CanExecuteDeleteBillCommand);
-            Bills = new ObservableCollection<Bill>();
-            PdfContents = new ObservableCollection<PdfContent>();
+            Bills = [];
+            PdfContents = [];
             LoadData();
         }
         /* TẠO HÓA ĐƠN */
@@ -177,7 +177,7 @@ namespace _Water_MG.ViewModels
         }
 
 
-        private decimal CalculateAmountDue(decimal totalWaterUsage)
+        private static decimal CalculateAmountDue(decimal totalWaterUsage)
         {
             decimal ratePerUnit = 5000;
             return totalWaterUsage * ratePerUnit;

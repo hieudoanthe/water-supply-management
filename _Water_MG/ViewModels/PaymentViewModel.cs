@@ -104,12 +104,12 @@ namespace _Water_MG.ViewModels
             get { return _customerName; }
             set { _customerName = value; OnPropertyChanged(nameof(CustomerName)); }
         }
-        public ObservableCollection<string> PaymentTypeItemsSource { get; } = new ObservableCollection<string>
-        {
+        public ObservableCollection<string> PaymentTypeItemsSource { get; } =
+        [
             "Null",
             "Chưa thanh toán",
             "Đã thanh toán"
-        };
+        ];
 
         private string _selectedPaymentType;
         public string SelectedPaymentType
@@ -129,7 +129,7 @@ namespace _Water_MG.ViewModels
             _dbContext = new WaterContext();
             SearchCommand = new ViewModelCommand(ExecuteSearchCommand, CanExecuteSearchCommand);
             DeleteCommand = new ViewModelCommand(ExecuteDeleteCommand, CanExecuteDeleteCommand);
-            Payments = new ObservableCollection<Payment>();
+            Payments = [];
             LoadData();
         }
 
