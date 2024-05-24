@@ -178,7 +178,7 @@
 
                                 <DataGrid x:Name="dgView" 
                                           ColumnWidth="*"
-                                          Background="#7163ba"
+                                          Background="#00C3AA"
                                           BorderThickness="0">
                                     <DataGrid.ColumnHeaderStyle>
                                         <Style TargetType="DataGridColumnHeader">
@@ -203,31 +203,8 @@
                         <Grid Grid.Row="0">
                             <Label Content="Tháng :" Foreground="Black" Margin="0,27,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                             <Label Content="Năm :" Foreground="Black" Margin="160,27,282,50" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                            <Label Content="Mã hàng :" Foreground="Black" Margin="0,62,300,0"  Height="38" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                             <ComboBox Name="comboThang" Margin="50,27,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="107"/>
                             <ComboBox x:Name="comboNam" Margin="205,27,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="95" Height="23"/>
-                            <TextBox x:Name="_Mahang"
-                                             FontSize="13"
-                                             FontWeight="Medium"
-                                             FontFamily="Monterrat"
-                                             Foreground="Black"
-                                             CaretBrush="Black"
-                                             BorderBrush="Black"
-                                             BorderThickness="0,0,0,1"
-                                             Height="20"
-                                             VerticalContentAlignment="Top"
-                                             Margin="70,63,351,17">
-
-
-                                <TextBox.Background>
-                                    <ImageBrush 
-                                            Stretch="None"
-                                            AlignmentX="Left"
-                                            />
-                                </TextBox.Background>
-                            </TextBox>
-                            <ComboBox x:Name="comboMahang" Margin="70,67,172,0" VerticalAlignment="Top"/>
-                            <!-- button thêm mới-->
                             <Button
                                     x:Name="btn_thongke"
                                     BorderThickness="0"

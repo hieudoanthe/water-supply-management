@@ -139,12 +139,12 @@
                                           VerticalAlignment="Center"
                                           Margin="30,0,10,0"
                                           Width="100"/>
-                                <!-- button search-->
+                                <!-- button tim kiem-->
                                 <Button 
                                      x:Name="btn_Search"
                                      Command="{Binding SearchCommand}"
                                      BorderThickness="0"
-                                     Content="Tìm kiếm"
+                                     Content="Lọc"
                                      FontFamily="Century Gothic"
                                      FontSize="14"
                                      Foreground="White"                                  
@@ -189,7 +189,7 @@
                                             GridLinesVisibility="None"
                                             AutoGenerateColumns="False"
                                             ColumnWidth="*"
-                                            Background="#7163ba"
+                                            Background="#00C3AA"
                                             BorderThickness="0"
                                             >
                                     <DataGrid.Columns>

@@ -157,13 +157,13 @@ namespace _Water_MG.ViewModels
             catch (Exception ex)
             {
                 var sb = new StringBuilder();
-                sb.AppendLine($"An error occurred: {ex.Message}");
+                sb.AppendLine($"Lỗi: {ex.Message}");
                 if (ex.InnerException != null)
                 {
-                    sb.AppendLine($"Inner Exception: {ex.InnerException.Message}");
+                    sb.AppendLine($"Lỗi: {ex.InnerException.Message}");
                     if (ex.InnerException.InnerException != null)
                     {
-                        sb.AppendLine($"Inner Inner Exception: {ex.InnerException.InnerException.Message}");
+                        sb.AppendLine($"Lỗi: {ex.InnerException.InnerException.Message}");
                     }
                 }
                 ErrorMessage = sb.ToString();

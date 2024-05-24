@@ -4,12 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-        xmlns:local="clr-namespace:_Water_MG.Views"
-        mc:Ignorable="d"
+        xmlns:local="clr-namespace:_Water_MG.Views" xmlns:viewModel="clr-namespace:_Water_MG.ViewModels"
+      mc:Ignorable="d"
         Height="650" Width="1100"
         Background="Transparent"
         FontFamily="Century Gothic">
-
+    <Page.DataContext>
+        <viewModel:PaymentViewModel />
+    </Page.DataContext>
     <Border>
 
         <Border.BorderBrush>
@@ -72,7 +74,13 @@
                                >
                         </TextBlock>
                     </StackPanel>
-
+                    <TextBlock Text="{Binding ErrorMessage}"
+                                 Foreground="#D7596D"
+                                 FontSize="18"
+                                 FontWeight="Medium"
+                                 FontFamily="Montserrat"                             
+                                 Margin="251,6,0,0"
+ TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                 </Grid>
             </Border>
 
@@ -103,6 +111,7 @@
                                                   Margin="20,0,0,0"/>
                                 <!-- text box search-->
                                 <TextBox x:Name="_Search"
+                                             Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}"
                                              FontSize="13"
                                              FontWeight="Medium"
                                              FontFamily="Monterrat"
@@ -129,12 +138,15 @@
                                                Margin="5,0,0,0"
                                                FontSize="14"/>
                                 <ComboBox Name="cbbox_Search"
+                                          ItemsSource="{Binding PaymentTypeItemsSource}"
+                                          SelectedItem="{Binding SelectedPaymentType}"
                                               VerticalAlignment="Center"
                                               Margin="10,0,0,0"
                                               Width="100"/>
                                 <!-- button search-->
                                 <Button 
                                          x:Name="btn_Search"
+                                         Command="{Binding SearchCommand}"
                                          BorderThickness="0"
                                          Content="Lọc"
                                          FontFamily="Century Gothic"
@@ -175,15 +187,36 @@
 
                                 <DataGrid x:Name="dgView"
                                           ColumnWidth="*"
-                                          Background="#7163ba"
+                                          Background="#00C3AA"
+                                          ItemsSource="{Binding Payments}"
+                                          SelectedItem="{Binding SelectedPayment}"
+                                          GridLinesVisibility="None"
+                                          AutoGenerateColumns="False"
                                           BorderThickness="0">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Mã HĐ" Binding="{Binding BillId}" />
+                                        <DataGridTextColumn Header="Ngày trả " Binding="{Binding PaymentDate}" />
+                                        <DataGridTextColumn Header="Đơn giá" Binding="{Binding AmountPaid}" />
+                                        <DataGridTextColumn Header="Trạng thái" Binding="{Binding TypePay}" />
+                                    </DataGrid.Columns>
+                                    <DataGrid.Resources>
+                                        <Style TargetType="DataGridCell">
+                                            <Setter Property="BorderThickness" Value="1"/>
+                                            <Setter Property="Background" Value="AliceBlue"/>
+                                            <Setter Property="Foreground" Value="Black"/>
+                                        </Style>
+                                        <Style TargetType="DataGridRow">
+                                            <Setter Property="Background" Value="Aqua"/>
+                                            <Setter Property="BorderThickness" Value="1"/>
+                                        </Style>
+                                    </DataGrid.Resources>
                                     <DataGrid.ColumnHeaderStyle>
                                         <Style TargetType="DataGridColumnHeader">
                                             <Setter Property="Background" Value="Transparent"/>
                                             <Setter Property="Foreground" Value="White"/>
-                                            <Setter Property="Padding" Value="10,0,0,10"/>
+                                            <Setter Property="Padding" Value="10,8,0,10"/>
                                             <Setter Property="FontFamily" Value="Century Gothic"/>
-                                            <Setter Property="FontSize" Value="18"/>
+                                            <Setter Property="FontSize" Value="15"/>
                                         </Style>
                                     </DataGrid.ColumnHeaderStyle>
                                 </DataGrid>
@@ -204,7 +237,7 @@
                                 </Style>
                             </GroupBox.Style>
                             <Grid>
-                                <TextBlock Text="Mã KH:"
+                                <TextBlock Text="Mã HĐ:"
                                        Foreground="Black"
                                        FontSize="14"
                                        FontFamily="Century Gothic"
@@ -215,25 +248,19 @@
                                         FontSize="14"
                                         FontFamily="Century Gothic"
                                         Margin="40,86,310,443"/>
-                                <TextBlock Text="Đơn vị tính :"
-                                    Foreground="Black"
-                                    FontSize="14"
-                                    FontFamily="Century Gothic" Margin="40,133,310,398"/>
                                 <TextBlock Text="Đơn giá:"
                                     Foreground="Black"
                                     FontSize="14"
-                                    FontFamily="Century Gothic" Margin="40,175,310,353"/>
-                                <TextBlock
+                                    FontFamily="Century Gothic" Margin="40,146,310,381"/>
+                                <TextBlock Text="Ngày trả:"
                                     Foreground="Black"
                                     FontSize="14"
-                                    FontFamily="Century Gothic" Margin="40,279,310,253"><Run Text="Loại :"/><LineBreak/><Run/></TextBlock>
-                                <TextBlock Text="Ngày cập nhật:"
-                                    Foreground="Black"
-                                    FontSize="14"
-                                    FontFamily="Century Gothic" Margin="40,351,310,170"/>
+                                    FontFamily="Century Gothic" Margin="40,242,310,276"/>
                                 <!-- label ma hang-->
                                 <TextBox x:Name="_Mahang"
+                                     Text="{Binding BillId, UpdateSourceTrigger=PropertyChanged}"
                                      FontSize="13"
+                                     IsEnabled="False"
                                      FontWeight="Medium"
                                      FontFamily="Monterrat"
                                      Foreground="Black"
@@ -255,7 +282,9 @@
                                 </TextBox>
                                 <!-- Text tên hàng-->
                                 <TextBox x:Name="_Tenhang"
+                                    Text="{Binding CustomerName, UpdateSourceTrigger=PropertyChanged}"
                                     FontSize="13"
+                                    IsEnabled="False"
                                     FontWeight="Medium"
                                     FontFamily="Monterrat"
                                     Foreground="Black"
@@ -276,7 +305,9 @@
                                     </TextBox.Background>
                                 </TextBox>
                                 <TextBox x:Name="_Dongia"
+                                Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}"
                                 FontSize="13"
+                                IsEnabled="False"
                                 FontWeight="Medium"
                                 FontFamily="Monterrat"
                                 Foreground="Black"
@@ -286,7 +317,7 @@
                                 Height="28"
                                 VerticalAlignment="Top"
                                 VerticalContentAlignment="Center"
-                                Margin="163,160,37,0"
+                                Margin="163,131,37,0"
                                 Padding="0,8,0,0">
 
                                     <TextBox.Background>
@@ -299,7 +330,9 @@
                                 <!-- Mo ta -->
                                 <!--Ngay cap nhat-->
                                 <DatePicker Name="DP_Ngaycapnhat"
-                                    Margin="163,339,37,0"
+                                    IsEnabled="False"
+                                    SelectedDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}"
+                                    Margin="163,246,37,0"
                                     Height="28"
                                     VerticalAlignment="Top"
                                     />
@@ -371,87 +404,12 @@
                                         </ControlTemplate>
                                     </Button.Template>
                                 </Button>
-                                <!-- button Sửa-->
-                                <Button
-                                    x:Name="btn_sua"
-                                    BorderThickness="0"
-                                    Content="Sửa"
-                                    FontFamily="Century Gothic"
-                                    FontSize="13"
-                                    Foreground="White"
-                                    Cursor="Hand"
-                                    Margin="58,472,253,27" RenderTransformOrigin="0.5,0.5">
-                                    <Button.RenderTransform>
-                                        <TransformGroup>
-                                            <ScaleTransform/>
-                                            <SkewTransform/>
-                                            <RotateTransform Angle="0.043"/>
-                                            <TranslateTransform/>
-                                        </TransformGroup>
-                                    </Button.RenderTransform>
 
-                                    <Button.Style>
-                                        <Style TargetType="{x:Type Button}" >
-                                            <Setter Property="Background" Value="#7163ba"/>
-                                            <Setter Property="FontFamily" Value="Century Gothic"/>
-                                            <Style.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="#0E8388"/>
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-
-                                    <Button.Template>
-                                        <ControlTemplate TargetType="{x:Type Button}">
-                                            <Border Width="150" Height="30"
-                                                CornerRadius="10"
-                                                Background="{TemplateBinding Background}">
-                                                <ContentPresenter HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"/>
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Button.Template>
-                                </Button>
-                                <!-- button xóa-->
                                 <Button
-                                    x:Name="btn_xoa"
+                                    x:Name="btn_xóa"
+                                    Command="{Binding DeleteCommand}"
                                     BorderThickness="0"
                                     Content="Xóa"
-                                    FontFamily="Century Gothic"
-                                    FontSize="13"
-                                    Foreground="White"
-                                    Cursor="Hand"
-                                    Margin="285,477,25,27">
-
-                                    <Button.Style>
-                                        <Style TargetType="{x:Type Button}" >
-                                            <Setter Property="Background" Value="#7163ba"/>
-                                            <Setter Property="FontFamily" Value="Century Gothic"/>
-                                            <Style.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="#0E8388"/>
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-
-                                    <Button.Template>
-                                        <ControlTemplate TargetType="{x:Type Button}">
-                                            <Border Width="150" Height="30"
-                                                CornerRadius="10"
-                                                Background="{TemplateBinding Background}">
-                                                <ContentPresenter HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center"/>
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Button.Template>
-                                </Button>
-                                <!-- button cập nhật-->
-                                <Button
-                                    x:Name="btn_capnhat"
-                                    BorderThickness="0"
-                                    Content="Cập nhật"
                                     FontFamily="Century Gothic"
                                     FontSize="13"
                                     Foreground="White"
@@ -517,32 +475,6 @@
                                         </ControlTemplate>
                                     </Button.Template>
                                 </Button>
-                                <ComboBox x:Name="cbbox_Loai"
-                                    Height="28"
-                                    Margin="158,268,42,0"
-                                    Background="DarkGray"
-                                    VerticalAlignment="Top"/>
-                                <TextBox x:Name="_Dvt"
-                                    FontSize="13"
-                                    FontWeight="Medium"
-                                    FontFamily="Monterrat"
-                                    Foreground="Black"
-                                    CaretBrush="Black"
-                                    BorderBrush="Black"
-                                    BorderThickness="0,0,0,1"
-                                    Height="28"
-                                    VerticalAlignment="Top"
-                                    VerticalContentAlignment="Center"
-                                    Margin="163,116,37,0"
-                                    Padding="0,8,0,0">
-
-                                    <TextBox.Background>
-                                        <ImageBrush 
-                                            Stretch="None"
-                                            AlignmentX="Left"
-                                            />
-                                    </TextBox.Background>
-                                </TextBox>
                             </Grid>
                         </GroupBox>
                     </Grid>

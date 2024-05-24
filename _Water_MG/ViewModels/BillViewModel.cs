@@ -105,28 +105,40 @@ namespace _Water_MG.ViewModels
                 {
                     var existingBill = _dbContext.Bills.FirstOrDefault(b => b.CustomerId == customer.CustomerId);
 
+                    var meters = _dbContext.Meters
+                        .Where(m => m.CustomerId == customer.CustomerId && m.TypeMeter != "Tạm khóa")
+                        .ToList();
+
+                    decimal totalWaterUsage = meters.Sum(m => m.LastReadingValue ?? 0);
+                    decimal amountDue = CalculateAmountDue(totalWaterUsage);
+
                     if (existingBill != null)
                     {
-                        var meters = _dbContext.Meters
-                            .Where(m => m.CustomerId == customer.CustomerId && m.TypeMeter != "Tạm khóa")
-                            .ToList();
-
-                        decimal totalWaterUsage = meters.Sum(m => m.LastReadingValue ?? 0);
-                        decimal amountDue = CalculateAmountDue(totalWaterUsage);
-
                         existingBill.BillingDate = DateTime.Now;
                         existingBill.AmountDue = amountDue;
                         existingBill.IsPaid = false;
+
+                        var existingPayment = _dbContext.Payments.FirstOrDefault(p => p.BillId == existingBill.BillId);
+                        if (existingPayment != null)
+                        {
+                            existingPayment.PaymentDate = DateTime.Now;
+                            existingPayment.AmountPaid = amountDue;
+                            existingPayment.TypePay = "Null"; 
+                        }
+                        else
+                        {
+                            var payment = new Payment
+                            {
+                                BillId = existingBill.BillId,
+                                PaymentDate = DateTime.Now,
+                                AmountPaid = amountDue,
+                                TypePay = "New"
+                            };
+                            _dbContext.Payments.Add(payment);
+                        }
                     }
                     else
                     {
-                        var meters = _dbContext.Meters
-                            .Where(m => m.CustomerId == customer.CustomerId && m.TypeMeter != "Tạm khóa")
-                            .ToList();
-
-                        decimal totalWaterUsage = meters.Sum(m => m.LastReadingValue ?? 0);
-                        decimal amountDue = CalculateAmountDue(totalWaterUsage);
-
                         if (totalWaterUsage > 0)
                         {
                             var bill = new Bill
@@ -138,12 +150,24 @@ namespace _Water_MG.ViewModels
                             };
 
                             _dbContext.Bills.Add(bill);
+                            _dbContext.SaveChanges(); 
+
                             Bills.Add(bill);
+
+                            var payment = new Payment
+                            {
+                                BillId = bill.BillId,
+                                PaymentDate = DateTime.Now,
+                                AmountPaid = amountDue,
+                                TypePay = "New" 
+                            };
+
+                            _dbContext.Payments.Add(payment);
                         }
                     }
                 }
                 _dbContext.SaveChanges();
-                ErrorMessage = "Đã tạo hoặc cập nhật hóa đơn cho tất cả khách hàng thành công.";
+                ErrorMessage = "Đã tạo hoặc cập nhật hóa đơn và thanh toán cho tất cả khách hàng thành công.";
                 LoadData();
             }
             catch (Exception ex)
@@ -151,6 +175,7 @@ namespace _Water_MG.ViewModels
                 ErrorMessage = $"Đã xảy ra lỗi: {ex.Message}";
             }
         }
+
 
         private decimal CalculateAmountDue(decimal totalWaterUsage)
         {
@@ -419,10 +444,10 @@ namespace _Water_MG.ViewModels
             {
                 _searchKeyword = value;
                 OnPropertyChanged(nameof(SearchKeyword)); // Kích hoạt sự kiện PropertyChanged
-                FilterCustomers(); // Gọi phương thức lọc dữ liệu khi từ khóa tìm kiếm thay đổi
+                FilterBills(); // Gọi phương thức lọc dữ liệu khi từ khóa tìm kiếm thay đổi
             }
         }
-        private void FilterCustomers()
+        private void FilterBills()
         {
             string keyword = SearchKeyword?.ToLower() ?? string.Empty;
 

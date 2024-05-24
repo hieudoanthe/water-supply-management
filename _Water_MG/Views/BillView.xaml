@@ -205,8 +205,7 @@ TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                                             <ColumnDefinition Width="343*"/>
                                             <ColumnDefinition Width="227*"/>
                                         </Grid.ColumnDefinitions>
-                                        <!-- Button sua-->
-                                        <!-- button cap nhat-->
+                                        <!-- button thanh toan-->
                                         <Button 
                                             x:Name="btn_thanhtoan"
                                             Command="{Binding RequestPaymentCommand}"
@@ -309,6 +308,7 @@ TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                                        />
                                     <!-- Mã hóa đơn-->
                                     <TextBox x:Name="_Mahoadon"
+                                         IsEnabled="False"
                                          Text="{Binding BillId, UpdateSourceTrigger=PropertyChanged}"
                                          FontSize="13"
                                          FontWeight="Medium"
@@ -332,6 +332,7 @@ TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                                     </TextBox>
                                     <!-- Mã KH-->
                                     <TextBox x:Name="_MaKH"
+                                        IsEnabled="False"
                                         Text="{Binding IdKH, UpdateSourceTrigger=PropertyChanged}"
                                         FontSize="13"
                                         FontWeight="Medium"
@@ -355,6 +356,7 @@ TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                                     </TextBox>
                                     <!-- ĐƠn giá-->
                                     <TextBox x:Name="_Dongia"
+                                        IsEnabled="False"
                                         Text="{Binding BillingAmount, UpdateSourceTrigger=PropertyChanged}"
                                         FontSize="13"
                                         FontWeight="Medium"
@@ -378,6 +380,7 @@ TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                                     </TextBox>
                                     <!-- Date picker-->
                                     <DatePicker Name="DP_Ngaylap"
+                                                IsEnabled="False"
                                                 SelectedDate="{Binding BillingDate, UpdateSourceTrigger=PropertyChanged}"
                                                 Height="28"
                                                 Margin="175,113,25,15"/>
@@ -405,7 +408,7 @@ TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                                       GridLinesVisibility="None"
                                       Name ="dgView_Hoadon"
                                       ColumnWidth="*"
-                                      Background="#7163ba"
+                                      Background="#00C3AA"
                                       BorderThickness="0.1" Height="370" VerticalAlignment="Bottom">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="Mã HĐ" Binding="{Binding BillId}" />

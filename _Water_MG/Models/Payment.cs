@@ -15,10 +15,8 @@ namespace _Water_MG.Models
 
         public int BillId { get; set; }
 
-        [Required]
         public DateTime PaymentDate { get; set; }
 
-        [Required]
         public decimal AmountPaid { get; set; }
 
         public string TypePay {  get; set; }

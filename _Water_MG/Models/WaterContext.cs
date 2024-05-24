@@ -17,7 +17,7 @@ namespace _Water_MG.Models
         public virtual DbSet<Bill> Bills { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Meter> Meters { get; set; }
-        public virtual DbSet<Payment> Payment { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 

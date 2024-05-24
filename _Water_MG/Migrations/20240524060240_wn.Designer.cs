@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _Water_MG.Models;
 
@@ -11,9 +12,11 @@ using _Water_MG.Models;
 namespace _Water_MG.Migrations
 {
     [DbContext(typeof(WaterContext))]
-    partial class WaterContextModelSnapshot : ModelSnapshot
+    [Migration("20240524060240_wn")]
+    partial class wn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,7 +180,7 @@ namespace _Water_MG.Migrations
 
                     b.HasIndex("BillId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payment");
                 });
 
             modelBuilder.Entity("_Water_MG.Models.Bill", b =>

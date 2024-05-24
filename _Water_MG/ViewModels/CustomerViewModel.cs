@@ -159,7 +159,6 @@ namespace _Water_MG.ViewModels
                     Email = _selectedCustomer.Email;
                     Address = _selectedCustomer.Address;
                     idKH = _selectedCustomer.CustomerId;
-                    // Populate other fields as needed
                 }
             }
         }
@@ -239,17 +238,17 @@ namespace _Water_MG.ViewModels
                 }
                 else
                 {
-                    ErrorMessage = "Failed to save Account.";
+                    ErrorMessage = "Lỗi khi lưu tài khoản.";
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                Console.WriteLine($"Lỗi: {ex.Message}");
                 if (ex.InnerException != null)
                 {
-                    Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+                    Console.WriteLine($"Lỗi: {ex.InnerException.Message}");
                 }
-                ErrorMessage = $"An error occurred: {ex.Message}";
+                ErrorMessage = $"Lỗi: {ex.Message}";
             }
         }
 
@@ -302,7 +301,7 @@ namespace _Water_MG.ViewModels
             catch (Exception ex)
             {
                 // Xử lí khi có lỗi xảy ra
-                Console.WriteLine($"An error occurred while deleting data: {ex.Message}");
+                Console.WriteLine($"Lỗi: {ex.Message}");
             }
         }
         private void DeleteAccount(int accountId)
@@ -359,8 +358,8 @@ namespace _Water_MG.ViewModels
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while updating data: {ex.Message}");
-                ErrorMessage = $"An error occurred: {ex.Message}";
+                Console.WriteLine($"Lỗi: {ex.Message}");
+                ErrorMessage = $"Lỗi: {ex.Message}";
             }
         }
 
