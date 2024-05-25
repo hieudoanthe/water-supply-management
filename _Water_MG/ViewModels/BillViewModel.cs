@@ -70,6 +70,25 @@ namespace _Water_MG.ViewModels
                 OnPropertyChanged(nameof(BillingAmount));
             }
         }
+        public ObservableCollection<string> BillTypeItemsSource { get; } = new ObservableCollection<string>
+        {
+            "0-500",
+            "500-1M",
+            "1M-2M",
+            "Over 2M"
+        };
+        private string _selectedBillType;
+        public string SelectedBillType
+        {
+            get { return _selectedBillType; }
+            set
+            {
+                _selectedBillType = value;
+                OnPropertyChanged(nameof(SelectedBillType));
+            }
+        }
+        public ICommand SearchBillCommand { get; }
+        
         public ObservableCollection<Bill> Bills { get; set; }
         public ObservableCollection<PdfContent> PdfContents { get; set; }
 
@@ -85,15 +104,70 @@ namespace _Water_MG.ViewModels
             GeneratePdfCommand = new ViewModelCommand(ExecuteGeneratePdfCommand, CanExecuteGeneratePdfCommand);
             RequestPaymentCommand = new ViewModelCommand(ExecuteRequestPaymentCommand, CanExecuteRequestPaymentCommand);
             DeleteBillCommand = new ViewModelCommand(ExecuteDeleteBillCommand, CanExecuteDeleteBillCommand);
+            SearchBillCommand = new ViewModelCommand(ExecuteSearchBillCommand, CanExecuteSearchBillCommand);
             Bills = [];
             PdfContents = [];
             LoadData();
         }
+        /*LỌC*/
+        private bool CanExecuteSearchBillCommand(object obj)
+        {
+            return !string.IsNullOrWhiteSpace(SelectedBillType);
+        }
+        private void ExecuteSearchBillCommand(object obj)
+        {
+            FilterBillsByBillType();
+        }
+
+        private void FilterBillsByBillType()
+        {
+            List<Bill> filteredBills = new List<Bill>();
+
+            switch (SelectedBillType)
+            {
+                case "0-500":
+                    filteredBills = _dbContext.Bills
+                        .Where(b => b.AmountDue >= 0 && b.AmountDue <= 500)
+                        .ToList();
+                    break;
+
+                case "500-1M":
+                    filteredBills = _dbContext.Bills
+                        .Where(b => b.AmountDue > 500 && b.AmountDue <= 1000000)
+                        .ToList();
+                    break;
+
+                case "1M-2M":
+                    filteredBills = _dbContext.Bills
+                        .Where(b => b.AmountDue > 1000000 && b.AmountDue <= 2000000)
+                        .ToList();
+                    break;
+
+                case "Over 2M":
+                    filteredBills = _dbContext.Bills
+                        .Where(b => b.AmountDue > 2000000)
+                        .ToList();
+                    break;
+
+                default:
+                    filteredBills = _dbContext.Bills.ToList();
+                    break;
+            }
+
+            Bills.Clear();
+            foreach (var bill in filteredBills)
+            {
+                Bills.Add(bill);
+            }
+        }
+
+
         /* TẠO HÓA ĐƠN */
         private bool CanExecuteCreateBillCommand(object obj)
         {
             return true;
         }
+
 
         private void ExecuteCreateBillCommand(object obj)
         {

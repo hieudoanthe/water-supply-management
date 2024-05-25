@@ -62,7 +62,8 @@
                         <fa:IconImage Icon="BarChart"
                                   Width="20"
                                   Margin="5,5,0,0"
-                                  Foreground="Black"
+                                  Foreground="#0E8388"
+                                  IconFont="Solid"
                                   />
                     </StackPanel>
 
@@ -70,8 +71,9 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center">
                         <TextBlock Text="Thông báo và Thống kê"
-                               Foreground="Black"
-                               FontSize="14"
+                               Foreground="#0E8388"
+                               FontSize="15"
+                                   FontWeight="Bold"
                                FontFamily="Century Gothic"
                                Grid.Column="1"
                                TextAlignment="Left"
@@ -229,7 +231,7 @@
                                 </GroupBox.Style>
 
                                 <Grid>
-                                    <Grid Background="#7163ba">
+                                    <Grid Background="#7376BD">
                                         <lvc:PieChart Series="{Binding PieSeriesCollection}" LegendLocation="Right">
                                             <lvc:PieChart.DataTooltip>
                                                 <lvc:DefaultTooltip SelectionMode="OnlySender" />

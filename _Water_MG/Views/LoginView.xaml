@@ -39,14 +39,14 @@
             <Border.BorderBrush>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                     <GradientStop Color="#462AD8" Offset="0"/>
-                    <GradientStop Color="#DA34AE" Offset="0.75"/>
+                    <GradientStop Color="#07F3C0" Offset="0.75"/>
                     <GradientStop Color="#8A16C1" Offset="1"/>
                 </LinearGradientBrush>
             </Border.BorderBrush>
 
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
-                    <GradientStop Color="#060531" Offset="0"/>
+                    <GradientStop Color="#7376BD" Offset="0"/>
                     <GradientStop Color="#1B1448" Offset="1"/>
                 </LinearGradientBrush>
             </Border.Background>
@@ -114,7 +114,7 @@
                             Cursor="Hand" Grid.Column="2" HorizontalAlignment="Center" Width="25" Click="btnMaximaize_Click">
                         <Button.Style>
                             <Style TargetType="Button">
-                                <Setter Property="Background" Value="#33CC33"/>
+                                <Setter Property="Background" Value="#E285DE"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Background" Value="#66CC66"/>
@@ -173,7 +173,7 @@
                             Margin="0,35,0,0">
 
                     <Image Source="../Image/logo.png"
-                           Width="100" Height="100"/>
+                           Width="150" Height="110"/>
 
                     <TextBlock Text="HCD"
                                Foreground="White"

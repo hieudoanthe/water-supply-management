@@ -57,7 +57,8 @@
                         <fa:IconImage Icon="MoneyBill"
                                   Width="20"
                                   Margin="5,5,0,0"
-                                  Foreground="Black" Height="21"
+                                      IconFont="Solid"
+                                  Foreground="#EF6C96" Height="21"
                                   />
                     </StackPanel>
 
@@ -65,8 +66,9 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center">
                         <TextBlock Text="Thanh toán"
-                               Foreground="Black"
-                               FontSize="14"
+                               Foreground="#EF6C96"
+                               FontSize="15"
+                                   FontWeight="Bold"
                                FontFamily="Century Gothic"
                                Grid.Column="1"
                                TextAlignment="Left"
@@ -75,12 +77,12 @@
                         </TextBlock>
                     </StackPanel>
                     <TextBlock Text="{Binding ErrorMessage}"
-                                 Foreground="#D7596D"
-                                 FontSize="18"
-                                 FontWeight="Medium"
-                                 FontFamily="Montserrat"                             
-                                 Margin="251,6,0,0"
- TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
+                                Foreground="#D7596D"
+                                FontSize="15"
+                                FontWeight="Medium"
+                                FontFamily="Montserrat"                             
+                                Margin="115,6,0,0"
+TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                 </Grid>
             </Border>
 
@@ -187,7 +189,7 @@
 
                                 <DataGrid x:Name="dgView"
                                           ColumnWidth="*"
-                                          Background="#7163ba"
+                                          Background="#7376BD"
                                           ItemsSource="{Binding Payments}"
                                           SelectedItem="{Binding SelectedPayment}"
                                           GridLinesVisibility="None"
@@ -217,6 +219,7 @@
                                             <Setter Property="Padding" Value="10,8,0,10"/>
                                             <Setter Property="FontFamily" Value="Century Gothic"/>
                                             <Setter Property="FontSize" Value="15"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
                                         </Style>
                                     </DataGrid.ColumnHeaderStyle>
                                 </DataGrid>

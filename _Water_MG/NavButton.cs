@@ -50,7 +50,7 @@ namespace _Water_MG
         // Raise the CustomClick event
         protected virtual void OnCustomClick()
         {
-            RoutedEventArgs args = new RoutedEventArgs(CustomClickEvent);
+            RoutedEventArgs args = new(CustomClickEvent);
             RaiseEvent(args);
         }
 
@@ -60,5 +60,6 @@ namespace _Water_MG
             base.OnMouseLeftButtonUp(e);
             OnCustomClick();
         }
+
     }
 }

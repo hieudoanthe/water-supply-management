@@ -58,15 +58,17 @@
                         <fa:IconImage Icon="User"
                                   Width="20"
                                   Margin="5,5,0,0"
-                                  Foreground="Black" Height="19"
+                                  Foreground="#371B58" Height="19"
+                                  IconFont="Solid"
                                   />
                     </StackPanel>
                     <StackPanel Grid.Column="1"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center">
                         <TextBlock Text="Khách hàng"
-                               Foreground="Black"
-                               FontSize="14"
+                               Foreground="#371B58"
+                               FontSize="15"
+                               FontWeight="Bold"
                                FontFamily="Century Gothic"
                                Grid.Column="1"
                                TextAlignment="Left"
@@ -76,12 +78,12 @@
 
                     </StackPanel>
                     <TextBlock Text="{Binding ErrorMessage}"
-                                 Foreground="#D7596D"
-                                 FontSize="18"
-                                 FontWeight="Medium"
-                                 FontFamily="Montserrat"                             
-                                 Margin="251,6,0,0"
- TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
+                                Foreground="#D7596D"
+                                FontSize="15"
+                                FontWeight="Medium"
+                                FontFamily="Montserrat"                             
+                                Margin="128,6,0,0"
+TextWrapping="Wrap" Grid.Column="1" Grid.ColumnSpan="4"/>
                 </Grid>
             </Border>
 
@@ -188,7 +190,7 @@
 
                             <DataGrid Name="dgView"
                                             ColumnWidth="*"
-                                            Background="#7163ba"
+                                            Background="#7376BD"
                                             GridLinesVisibility="None"
                                             BorderThickness="0"
                                             ItemsSource="{Binding Customers}" 
@@ -220,6 +222,7 @@
                                         <Setter Property="Padding" Value="10,8,0,10"/>
                                         <Setter Property="FontFamily" Value="Century Gothic"/>
                                         <Setter Property="FontSize" Value="15"/>
+                                        <Setter Property="FontWeight" Value="Bold"/>
                                     </Style>
                                 </DataGrid.ColumnHeaderStyle>
                             </DataGrid>

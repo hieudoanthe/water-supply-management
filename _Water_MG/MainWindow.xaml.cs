@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _Water_MG.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,7 @@ namespace _Water_MG
             navframe.Navigate(new Uri("/Views/StatisticalView.xaml", UriKind.Relative));
         }
 
-        private void sidebar_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Sidebar_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
             var selected = sidebar.SelectedItem as NavButton;
@@ -33,8 +34,12 @@ namespace _Water_MG
             navframe.Navigate(selected.Navlink);
 
         }
-
-        private void navframe_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+                DragMove();
+        }
+        private void Navframe_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
 
         }
@@ -70,6 +75,12 @@ namespace _Water_MG
         private void NavButton_MouseLeave(object sender, MouseEventArgs e)
         {
             ToolTipService.SetIsEnabled((DependencyObject)sender, false);
+        }
+        private void NavButton_CustomClick(object sender, RoutedEventArgs e)
+        {
+            var loginWindow = new LoginView();
+            loginWindow.Show();
+            this.Close();
         }
     }
 }
